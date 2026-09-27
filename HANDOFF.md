@@ -73,6 +73,7 @@ Initial repository setup remains on `main` with Vite + React + TypeScript + Tail
 - reducer-style domain actions
 - separated `game/`, `content/`, and `components/` layers
 - three access routes into the same major social event
+- early UI centered on cash, free time, job status, housing, and social footing rather than future show metrics
 - persistent relationship, reputation/relevance, history, and knowledge state
 - Fact/Evidence/Rumor/Public Narrative-compatible information modeling
 - local browser save / continue / reset with schema version
@@ -138,7 +139,7 @@ Do not merge to `main` or deploy any environment without Paige's explicit destin
 
 ## Recommended Next Step
 
-Finish verification of `feature/vertical-slice` in a dependency-backed environment, then have Paige play at least two routes and collect product/UX feedback before deciding the next implementation scope.
+Verify the latest `feature/vertical-slice` build, then have Paige replay at least two routes with special attention to whether the early job/housing/dating/social tradeoffs now feel like one coherent life-sim loop. Keep the full career ladder in issue #17 rather than expanding it into this slice.
 
 
 
@@ -201,6 +202,8 @@ Keep the file current and concise. Remove stale details when they stop being use
 - The starting situation is intentionally low-status: the player is living with Nia, begins unemployed with thin savings, and is trying to establish income before an independent home is realistic.
 - Early play should balance job hunting, savings, friendships, dating, presentation, and social opportunities. Pushing hard on one area should slow progress elsewhere.
 - Dating begins as ordinary life rather than a social-climbing shortcut. Early app dates can be duds; stronger romantic options can emerge later as the player's world expands.
+- Career is a persistent progression track, not a tutorial system. Jobs should improve and branch across the game, with tradeoffs among pay, flexibility, stability, status, and access.
+- A player may keep a serious job during the show. Filming can compete with work and show behavior can help or hurt an employer, career, or later business. Long-running career design is tracked in issue #17.
 - Reality-TV inspiration should borrow social dynamics, not reproduce real cast members or storylines wholesale.
 
 ## Open Questions
@@ -261,4 +264,6 @@ External or destructive actions require Paige's explicit authorization at the ap
 - Changed the starting situation so the player is staying with Nia and saving for an apartment; the first slice now ends with entry into a better social tier instead of production noticing the player.
 - Rewrote choice copy to describe concrete player actions, costs, and likely outcomes more clearly.
 - Revised the start again so the player has no job yet. Job search and an interview now compete with social plans, wardrobe spending, and an optional early dud dating-app date.
+- Updated the player-facing HUD/sidebar so the first slice foregrounds job, housing, cash, free time, and social footing instead of abstract future-facing relevance metrics.
+- Expanded the game vision with persistent career progression and show-era work/business conflicts; created issue #17 for the future career system.
 - Verified the domain model and route logic locally without promoting or deploying the branch.
