@@ -362,9 +362,9 @@ Neither person saw the cuff disappear. Ten minutes later, people are repeating t
     title: 'A small step forward',
     body: `The cuff turns up under a stack of event materials. The accusation was wrong, but the people who repeated it do not all look embarrassed.
 
-Before you leave, Ava mentions another opening next month and says she can introduce you to the organizer. Nia points out that a week ago you were mostly thinking about applications, rent, and whether sleeping on her couch was becoming permanent.
+By the end of the night, you have learned something useful about the room and about how quickly weak information can harden into a story.
 
-Those problems are not solved. You have just added one useful thing to your life: a slightly better circle of people.`,
+Your ordinary problems are not solved. Work, money, housing, and the people in your actual life will still be there tomorrow.`,
     variants: [
       {
         conditions: [{ type: 'history', id: 'access_friend' }],
@@ -624,7 +624,7 @@ There is also a benefit at the Bellweather Hotel this weekend. It is a step abov
         label: 'Accept Mara’s invitation to the Bellweather benefit',
         description: 'Because you asked before repeating the cuff rumor, Mara is willing to put your name down as her guest.',
         nextSceneId: 'event2_arrival',
-        conditions: [{ type: 'history', id: 'rumor_questioned' }],
+        conditions: [{ type: 'history', id: 'chose_mara' }, { type: 'history', id: 'rumor_questioned' }],
         effects: [
           { type: 'accessRoute', route: 'friend' },
           { type: 'history', id: 'bellweather_access_mara' },
@@ -771,7 +771,7 @@ Nobody here is famous. That almost makes it more useful. These are the people wh
     title: 'Still ordinary. Less stuck.',
     body: `By the end of the night, the biggest change is not that anyone important suddenly knows your name. It is that this no longer feels like a world that only exists on the other side of a screen.
 
-You still sleep at Nia's. Six hundred dollars is still a real obstacle. Work still takes time you could spend somewhere else. Dating is still mostly just dating.
+You still sleep at Nia's. Work still takes time you could spend somewhere else. Dating is still mostly just dating.
 
 But the choices are starting to connect. Work can lead to better work. Relationships can lead to rooms. Money can buy independence, or disappear into the life you are trying to build.`,
     variants: [
