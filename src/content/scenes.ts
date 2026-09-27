@@ -1016,7 +1016,7 @@ Ava mentions a Saturday gallery supper at 7:30 PM. It is the first room you have
       },
       {
         id: 'week3-cafe-shift',
-        label: 'Work Calder's assigned Saturday 2-10 PM shift',
+        label: 'Work Calder’s assigned Saturday 2-10 PM shift',
         description: 'Work the full 8-hour shift for $160. You will miss the gallery supper.',
         nextSceneId: 'week3_hub',
         conditions: [
@@ -1068,7 +1068,7 @@ Ava mentions a Saturday gallery supper at 7:30 PM. It is the first room you have
       },
       {
         id: 'week3-event-celeste',
-        label: 'Take Celeste's gallery supper introduction',
+        label: 'Take Celeste’s gallery supper introduction',
         description: 'Saturday, 7:30-10:30 PM. Celeste puts your name on the list.',
         nextSceneId: 'event3_arrival',
         conditions: [
@@ -1085,7 +1085,7 @@ Ava mentions a Saturday gallery supper at 7:30 PM. It is the first room you have
       },
       {
         id: 'week3-event-organizer',
-        label: 'Use the Bellweather organizer invitation',
+        label: 'Use the Bellweather organizer’s invitation',
         description: 'Saturday, 7:30-10:30 PM. The organizer remembers you and forwards a spare invitation.',
         nextSceneId: 'event3_arrival',
         conditions: [
@@ -1102,7 +1102,7 @@ Ava mentions a Saturday gallery supper at 7:30 PM. It is the first room you have
       },
       {
         id: 'week3-event-hotel',
-        label: 'Take a coworker spare gallery supper invitation',
+        label: 'Take a coworker’s spare gallery supper invitation',
         description: 'Saturday, 7:30-10:30 PM. Bellweather has put you around people who get invitations like this.',
         nextSceneId: 'event3_arrival',
         conditions: [
