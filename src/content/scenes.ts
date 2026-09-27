@@ -391,7 +391,7 @@ Your ordinary problems are not solved. Work, money, housing, and the people in y
         body: `You also have a job now. It is not glamorous, but steady income changes what you can realistically do next.`,
       },
       {
-        conditions: [{ type: 'history', id: 'chose_mara' }, { type: 'history', id: 'rumor_questioned' }],
+        conditions: [{ type: 'history', id: 'rumor_questioned' }],
         body: `Mara remembers that you asked her directly instead of joining the pile-on. That is not friendship yet, but it is a decent start.`,
       },
       {
@@ -506,7 +506,7 @@ There is also a benefit at the Bellweather Hotel this weekend. It is a step abov
       {
         id: 'week2-interview-cafe',
         label: 'Interview at Calder Café',
-        description: 'Spend 3 hours on the interview you opened up with last week’s applications.',
+        description: 'Spend 3 hours following up on your applications with a real interview for steady front-of-house work.',
         nextSceneId: 'week2_hub',
         conditions: [
           { type: 'minTime', amount: 3 },
@@ -697,10 +697,18 @@ There is also a benefit at the Bellweather Hotel this weekend. It is a step abov
     id: 'event2_arrival',
     eyebrow: 'Bellweather Hotel Benefit',
     title: 'The room got better',
-    body: `Juniper House felt like a lucky invitation. Bellweather feels like a place people expect to be invited to.
+    body: `Bellweather feels like a place people expect to be invited to.
 
 Nobody here is famous. That almost makes it more useful. These are the people who own things, fund things, hire people, introduce people, and decide which names keep appearing on guest lists.`,
     variants: [
+      {
+        conditions: [{ type: 'history', id: 'entered_better_social_circle' }],
+        body: `After Juniper House, you recognize the feeling of entering a room one rung above your normal life. This one is simply a bigger rung.`,
+      },
+      {
+        conditions: [{ type: 'history', id: 'skipped_juniper' }],
+        body: `You skipped Juniper House last week, so this is your first real step into this tier of social life. The missed event did not erase every other route forward.`,
+      },
       {
         conditions: [{ type: 'history', id: 'bellweather_access_work' }],
         body: `You are wearing a Bellweather name tag instead of carrying a drink. The tradeoff is obvious: you are earning money and meeting people, but every conversation can be interrupted by someone asking where the coat check is.`,
@@ -759,6 +767,10 @@ Nobody here is famous. That almost makes it more useful. These are the people wh
         nextSceneId: 'event2_finale',
         effects: [
           { type: 'relevance', amount: 1 },
+          {
+            type: 'knowledge',
+            item: { id: 'bellweather_social_map', kind: 'fact', claim: 'At Bellweather, influence travels through organizers, employers, donors, and repeat introductions more than through whoever is loudest.', confidence: 'medium', public: false },
+          },
           { type: 'history', id: 'circulated_bellweather' },
         ],
       },
@@ -775,6 +787,18 @@ You still sleep at Nia's. Work still takes time you could spend somewhere else. 
 
 But the choices are starting to connect. Work can lead to better work. Relationships can lead to rooms. Money can buy independence, or disappear into the life you are trying to build.`,
     variants: [
+      {
+        conditions: [{ type: 'history', id: 'met_bellweather_organizer' }],
+        body: `The organizer remembers that you asked about the work behind the event instead of treating them like a status prop. It is a small connection, but a real one.`,
+      },
+      {
+        conditions: [{ type: 'history', id: 'deepened_mara_connection' }],
+        body: `You and Mara leave on warmer terms than you arrived. That relationship is starting to exist outside the cuff incident.`,
+      },
+      {
+        conditions: [{ type: 'history', id: 'circulated_bellweather' }],
+        body: `By circulating instead of attaching yourself to one person, you leave with a wider map of who actually connects this scene together.`,
+      },
       {
         conditions: [{ type: 'history', id: 'got_hotel_job' }],
         body: `The Bellweather job is your first obvious career step up. It pays better and puts you around more connected people, but it is also going to ask for more of your schedule.`,
