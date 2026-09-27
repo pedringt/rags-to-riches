@@ -35,39 +35,16 @@ The evolving design direction is documented in `docs/specs/game-vision.md`. Read
 
 ## Current Product Shape
 
-The game currently has three phases:
+`main` / production still reflects the inherited prototype.
 
-1. **Life sim** — manage a studio apartment, personal needs, money, cleanliness, time, and date readiness.
-2. **Dating** — choose among wealthy matches, go on dates, build the relationship meter, and marry.
-3. **Housewife / murder mystery** — a branching visual-novel story centered on a high-society murder, clues, status, alliances, and multiple endings.
+On the authorized implementation branch `feature/vertical-slice`, issue #15 replaces the working UI with the first slice of the new direction:
 
-The current experience is still effectively the original prototype. No product-direction pass has been completed yet.
+1. **Ordinary-life preparation** — limited time and money; choose work, relationships, or presentation.
+2. **Access** — reach one major social event through a friend, a favor, or a work-earned invitation.
+3. **Show orbit** — meet show-adjacent people, see status differences, and make an information-handling choice.
+4. **Slice endpoint** — the player is not cast yet, but the fictional show now knows who they are.
 
-## Important Current Mechanics
-
-### Life Sim
-
-- Needs: hunger, energy, hygiene, mood
-- Apartment cleanliness
-- Money
-- Time/day progression
-- Apartment interactions rendered with Three.js
-- Date readiness threshold gates the dating phase
-
-### Dating
-
-- Four initial dating profiles
-- Match eligibility uses player status/readiness
-- Dating costs money
-- Relationship progress gates marriage
-
-### Visual Novel
-
-- Story is stored in the `storyScript` object inside `src/RagsToRichesGame.tsx`
-- Player choices can modify status and add clues
-- Branches currently reconverge frequently through connector scenes
-- Several endings exist
-- A replay control exists at endings
+The original inherited prototype remains preserved at `originals/rags-to-riches-v3.tsx`.
 
 ## Development Controls
 
@@ -86,22 +63,25 @@ Keep these controls available during early QA and product exploration unless Pai
 
 ## Repository State
 
-Initial repository setup is complete.
+Initial repository setup remains on `main` with Vite + React + TypeScript + Tailwind + Three.js and a working production deployment.
 
-The project has:
+### Current implementation branch
 
-- Vite + React + TypeScript
-- Tailwind CSS
-- Three.js
-- Vercel Git integration
-- working production build
+`feature/vertical-slice` implements issue #15 and introduces:
 
-The initial Vercel build exposed TypeScript errors. They were fixed without changing gameplay:
+- serializable typed `GameState`
+- reducer-style domain actions
+- separated `game/`, `content/`, and `components/` layers
+- three access routes into the same major social event
+- persistent relationship, reputation/relevance, history, and knowledge state
+- Fact/Evidence/Rumor/Public Narrative-compatible information modeling
+- local browser save / continue / reset with schema version
+- Vitest test files for state, routes, and save behavior
+- no backend, database, accounts, cloud saves, AI API, Ink, Zustand, or engine migration
 
-- Three.js `position.set(...array)` calls were replaced with explicit x/y/z arguments
-- Vite client types were added so TypeScript recognizes CSS imports
+Three.js remains available in the project but is not a dependency of the new game-state layer.
 
-Those fixes are on `main`.
+Local verification completed for domain TypeScript, three end-to-end state routes, route gating, rumor consequences, and save/load/reset logic. Full dependency-backed `npm test` / Vite build still need to run in an environment where project packages are installed.
 
 ## Working Agreement
 
@@ -146,20 +126,19 @@ Do not rewrite project history in a way that implies Paige personally authored c
 
 ## Current Objective
 
-The immediate product phase is **define the new product direction before major implementation**. The inherited prototype remains useful as a reference, but the intended game direction is now substantially clearer and is documented in `docs/specs/game-vision.md`.
+The project is now in **implementation and verification of the first playable vertical slice** under issue #15.
 
-Do not assume the current mechanics, tone, story structure, visual design, or three-phase progression are settled product decisions simply because they exist in the prototype.
+The goal of this slice is to prove the ordinary-life → social-climbing → show-orbit loop before expanding into full seasons, cast trips, reunions, or the final mystery.
 
-The next meaningful work should generally be one of:
+Do not silently broaden this slice into the full game. Final title, city, cast roster, season count, credits motif, and final mystery remain intentionally unresolved.
 
-- Paige playing and reporting reactions
-- a read-only QA pass
-- a product/structure discussion
-- organizing feedback into an agreed implementation scope
-
-Large refactors should wait until there is a reason grounded in actual product feedback.
+Do not merge to `main` or deploy any environment without Paige's explicit destination-specific authorization.
 
 ## Recommended Next Step
+
+Finish verification of `feature/vertical-slice` in a dependency-backed environment, then have Paige play at least two routes and collect product/UX feedback before deciding the next implementation scope.
+
+
 
 Have Paige play through the current build and collect observations about:
 
@@ -202,27 +181,37 @@ Keep the file current and concise. Remove stale details when they stop being use
 ## Decisions Made
 
 - Preserve the original prototype as an archival file.
-- Keep the working game close to the inherited prototype during initial setup.
-- Use Vite + React + TypeScript + Tailwind + Three.js.
-- Keep developer shortcuts enabled during early evaluation.
-- Separate feedback collection from implementation.
-- Use preview verification before production changes when practical.
+- Use Vite + React + TypeScript + Tailwind; keep Three.js optional at the presentation layer.
+- Separate feedback, implementation, verification, and promotion authority.
+- Working player fantasy: ordinary person → elite reality-TV social world → maintain relevance without losing money/relationships/identity → later use accumulated social knowledge in a real mystery.
+- Persistent system families: Money/Lifestyle, Access/Cast Status, Relationships, Reputation/Relevance, Secrets/Information.
+- Time is the main scarcity constraint; no mobile-style energy meter in the first slice.
+- Core relationship values: Affection, Trust, Social Value; other relationship conditions are tags/states.
+- Cast Status and Relevance are separate.
+- Working status ladder: Outsider → Guest → Friend Of → Full-Time → Veteran.
+- Money and perceived wealth are distinct; money alone does not guarantee access.
+- Information distinguishes Fact, Evidence, Rumor, and Public Narrative.
+- Branch meaningfully and reconverge deliberately while preserving consequences.
+- First slice uses local saves only and plain typed state/reducer architecture.
+- No backend, database, accounts, cloud saves, AI API, Ink, Zustand, or engine migration unless a concrete future need appears.
+- `Main Character` is the strongest current working title/show-name candidate, but remains provisional.
+- Reality-TV inspiration should borrow social dynamics, not reproduce real cast members or storylines wholesale.
 
 ## Open Questions
 
-These are intentionally unresolved:
+These remain intentionally unresolved and should not be silently settled by an implementation agent:
 
-- What is the core fantasy or identity of the game?
-- Should all three phases remain major parts of the experience?
-- How much depth should the life-sim section have?
-- How strategic should dating be?
-- Is the murder mystery the main game, the payoff, or one episode?
-- How much should early choices materially alter later story outcomes?
-- What tone should dominate: camp, satire, melodrama, mystery, life sim, or a blend?
-- How long should a full playthrough take?
-- What should motivate replay?
-
-Do not settle these without Paige.
+- final game title and whether it matches the in-universe show title
+- exact invented city / social scene
+- signature credits motif
+- final cast roster and names
+- exact number of seasons
+- exact promotion/demotion thresholds
+- final anonymous-account structure
+- final murder victim / culprit structure and degree of variation
+- long-term marriage, business, debt, property, and sponsorship depth
+- final visual direction and how much of the experience is 2D, 3D, or mixed
+- eventual desktop packaging / cloud-save needs
 
 ## Authority / Credentials
 
@@ -254,3 +243,12 @@ External or destructive actions require Paige's explicit authorization at the ap
 
 - Added this canonical handoff document.
 - Added root agent-instruction files that direct coding agents to this handoff.
+
+### 2026-09-27 — First vertical-slice implementation
+
+- Began issue #15 on `feature/vertical-slice` after explicit implementation authorization.
+- Replaced the inherited working UI on that branch with a bounded social-climbing slice while preserving the archival original.
+- Added typed game state, reducer/rules, authored scene content, relationships, information state, local saves, and test files.
+- Implemented friend, favor, and work access routes that reconverge at the same event while preserving different state.
+- Added a low-stakes missing-jewelry rumor with keep/question/repeat outcomes to teach the future information loop.
+- Verified the domain model and route logic locally without promoting or deploying the branch.
