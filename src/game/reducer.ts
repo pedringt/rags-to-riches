@@ -18,6 +18,8 @@ const applyEffect = (state: GameState, effect: Effect): GameState => {
       return { ...state, relevance: state.relevance + effect.amount };
     case 'time':
       return { ...state, timeRemaining: Math.max(0, state.timeRemaining + effect.amount) };
+    case 'newWeek':
+      return { ...state, day: state.day + 7, timeRemaining: effect.time, accessRoute: null };
     case 'accessRoute':
       return { ...state, accessRoute: effect.route };
     case 'history':
