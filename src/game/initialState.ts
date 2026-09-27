@@ -6,8 +6,8 @@ export const createInitialGameState = (): GameState => ({
   sceneId: 'morning',
   day: 1,
   timeRemaining: 8,
-  cash: 120,
-  income: 80,
+  cash: 90,
+  income: 0,
   lifestyle: 0,
   reputation: 0,
   relevance: 0,
@@ -18,5 +18,8 @@ export const createInitialGameState = (): GameState => ({
     mara: { affection: 0, trust: 0, socialValue: 0, tags: [] },
   },
   knowledge: [],
-  history: [{ id: 'living_with_nia', day: 1, note: 'Staying at Nia’s place while saving for an apartment.' }],
+  history: [
+    { id: 'living_with_nia', day: 1, note: 'Staying at Nia’s place while unemployed and trying to get back on your feet.' },
+    { id: 'unemployed', day: 1, note: 'No current job at the start of the game.' },
+  ],
 });
