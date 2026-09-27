@@ -3,27 +3,40 @@ import { createInitialGameState } from './initialState';
 import { gameReducer } from './reducer';
 
 describe('gameReducer', () => {
-  it('applies money, time, and history effects', () => {
+  it('starts unemployed, living with Nia, and with thin savings', () => {
+    const state = createInitialGameState();
+    expect(state.cash).toBe(90);
+    expect(state.income).toBe(0);
+    expect(state.history.some((event) => event.id === 'living_with_nia')).toBe(true);
+    expect(state.history.some((event) => event.id === 'unemployed')).toBe(true);
+    expect(state.relationships.nia.tags).toContain('roommate');
+  });
+
+  it('applies job-search time and history effects', () => {
     const state = createInitialGameState();
     const next = gameReducer(state, {
       type: 'applyChoice',
       nextSceneId: 'prep',
       effects: [
-        { type: 'time', amount: -4 },
-        { type: 'cash', amount: 80 },
-        { type: 'history', id: 'worked_extra_shift' },
+        { type: 'time', amount: -3 },
+        { type: 'history', id: 'job_search_started' },
       ],
     });
 
-    expect(next.timeRemaining).toBe(4);
-    expect(next.cash).toBe(200);
-    expect(next.history.some((event) => event.id === 'worked_extra_shift')).toBe(true);
+    expect(next.timeRemaining).toBe(5);
+    expect(next.history.some((event) => event.id === 'job_search_started')).toBe(true);
   });
 
-  it('starts with the player living at Nia’s place', () => {
+  it('records getting a job separately from the starting unemployment history', () => {
     const state = createInitialGameState();
-    expect(state.history.some((event) => event.id === 'living_with_nia')).toBe(true);
-    expect(state.relationships.nia.tags).toContain('roommate');
+    const next = gameReducer(state, {
+      type: 'applyChoice',
+      nextSceneId: 'prep',
+      effects: [{ type: 'history', id: 'got_cafe_job' }],
+    });
+
+    expect(next.history.some((event) => event.id === 'got_cafe_job')).toBe(true);
+    expect(next.history.some((event) => event.id === 'unemployed')).toBe(true);
   });
 
   it('changes relationship values without exceeding bounds', () => {
