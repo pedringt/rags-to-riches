@@ -35,13 +35,21 @@ describe('vertical slice route rules', () => {
     expect(choiceAvailable(afterSearch, choice('prep', 'interview'))).toBe(true);
   });
 
-  it('unlocks the work route only after getting the café job', () => {
-    const state = gameReducer(createInitialGameState(), {
+  it('requires a normal café shift before the Juniper catering route', () => {
+    const employed = gameReducer(createInitialGameState(), {
       type: 'applyChoice',
       nextSceneId: 'prep',
       effects: [{ type: 'history', id: 'got_cafe_job' }],
     });
-    expect(choiceAvailable(state, choice('prep', 'work-route'))).toBe(true);
+    expect(choiceAvailable(employed, choice('prep', 'cafe-first-shift'))).toBe(true);
+    expect(choiceAvailable(employed, choice('prep', 'work-route'))).toBe(false);
+
+    const afterFirstShift = gameReducer(employed, {
+      type: 'applyChoice',
+      nextSceneId: 'prep',
+      effects: [{ type: 'history', id: 'worked_cafe_once' }],
+    });
+    expect(choiceAvailable(afterFirstShift, choice('prep', 'work-route'))).toBe(true);
   });
 
 
@@ -78,6 +86,26 @@ describe('vertical slice route rules', () => {
       effects: [{ type: 'history', id: 'got_hotel_job' }],
     });
     expect(choiceAvailable(workRoute, choice('week2_hub', 'week2-work-route'))).toBe(true);
+  });
+
+
+  it('uses first-date wording when Week 1 dating was skipped', () => {
+    const state = { ...createInitialGameState(), timeRemaining: 10, cash: 100 };
+    expect(choiceAvailable(state, choice('week2_start', 'week2-first-date'))).toBe(true);
+    expect(choiceAvailable(state, choice('week2_start', 'week2-another-date'))).toBe(false);
+  });
+
+  it('uses another-date wording when the player already dated in Week 1', () => {
+    const state = gameReducer(
+      { ...createInitialGameState(), timeRemaining: 10, cash: 100 },
+      {
+        type: 'applyChoice',
+        nextSceneId: 'week2_start',
+        effects: [{ type: 'history', id: 'went_on_dud_date' }],
+      },
+    );
+    expect(choiceAvailable(state, choice('week2_start', 'week2-first-date'))).toBe(false);
+    expect(choiceAvailable(state, choice('week2_start', 'week2-another-date'))).toBe(true);
   });
 
   it('allows the dud date only while the player can afford its time and cost', () => {
