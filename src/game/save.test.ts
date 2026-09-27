@@ -21,6 +21,12 @@ describe('local save', () => {
     expect(loadGame()).toEqual(state);
   });
 
+  it('rejects incompatible older save versions', () => {
+    const old = { ...createInitialGameState(), saveVersion: 1 };
+    localStorage.setItem(SAVE_KEY, JSON.stringify(old));
+    expect(loadGame()).toBeNull();
+  });
+
   it('clears the active save', () => {
     saveGame(createInitialGameState());
     clearSave();
