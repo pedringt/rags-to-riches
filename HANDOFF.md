@@ -35,14 +35,16 @@ The evolving design direction is documented in `docs/specs/game-vision.md`. Read
 
 ## Current Product Shape
 
-`main` / production still reflects the inherited prototype.
+`main` / production now contains the first playable pre-show vertical slice from issue #15.
 
-On the authorized implementation branch `feature/vertical-slice`, issue #15 replaces the working UI with the first slice of the new direction:
+On the authorized implementation branch `feature/week-2-slice`, issue #18 extends that slice into a second week:
 
-1. **Ordinary-life starting point** — the player is staying at Nia's place, unemployed, short on savings, and trying to get back on their feet.
-2. **First social climb** — use limited time, money, work, relationships, and presentation to reach a better local social event.
-3. **Better social tier** — meet more connected people and make an information-handling choice without directly pursuing the show.
-4. **Slice endpoint** — the player earns another invitation and moves one rung up socially; `Main Character` remains the long-term dream, not an immediately actionable casting goal.
+1. **Week 1** — the player starts unemployed, staying with Nia, and reaches Juniper House through friend, favor, or work access.
+2. **Week transition** — persistent cash, relationships, history, and information carry forward while a fresh 10-hour Week 2 budget begins.
+3. **Housing target** — the player can make a $600 move-out fund concrete by looking at apartments with Nia.
+4. **Career step** — Calder Café can lead to paid shifts and a better guest-services opportunity at the Bellweather Hotel.
+5. **Ordinary life continues** — dating and contributing at Nia's home compete with work and savings.
+6. **Second social tier** — the Bellweather benefit is a better local room, still explicitly pre-show, with multiple access paths tied to prior choices.
 
 The original inherited prototype remains preserved at `originals/rags-to-riches-v3.tsx`.
 
@@ -67,12 +69,12 @@ Initial repository setup remains on `main` with Vite + React + TypeScript + Tail
 
 ### Current implementation branch
 
-`feature/vertical-slice` implements issue #15 and introduces:
+`feature/week-2-slice` extends the issue #15 foundation for issue #18 and currently includes:
 
 - serializable typed `GameState`
 - reducer-style domain actions
 - separated `game/`, `content/`, and `components/` layers
-- three access routes into the same major social event
+- multiple access routes across two escalating local social events
 - early UI centered on cash, free time, job status, housing, and social footing rather than future show metrics
 - persistent relationship, reputation/relevance, history, and knowledge state
 - Fact/Evidence/Rumor/Public Narrative-compatible information modeling
@@ -82,7 +84,7 @@ Initial repository setup remains on `main` with Vite + React + TypeScript + Tail
 
 Three.js remains available in the project but is not a dependency of the new game-state layer.
 
-Local verification completed for domain TypeScript, three end-to-end state routes, route gating, rumor consequences, and save/load/reset logic. Full dependency-backed `npm test` / Vite build still need to run in an environment where project packages are installed.
+Week 2 adds a bounded `newWeek` state effect, a $600 housing target, paid café work, a first better-job step, a second ordinary date, a Nia/home contribution choice, and the Bellweather benefit. Dependency-backed tests/build are verified through the Vercel Git build gate when the branch reaches READY.
 
 ## Working Agreement
 
@@ -127,9 +129,9 @@ Do not rewrite project history in a way that implies Paige personally authored c
 
 ## Current Objective
 
-The project is now in **implementation and verification of the first playable vertical slice** under issue #15.
+The project is now in **implementation and verification of Week 2** under issue #18.
 
-The goal of this slice is to prove the ordinary-life → first social climb → better social tier loop before expanding toward the show, full seasons, cast trips, reunions, or the final mystery.
+The goal is to test whether the pre-show life-sim remains interesting for another week by connecting work, savings, housing, dating, friendships, and a second social opportunity before expanding toward casting.
 
 The player may want to be on `Main Character` from the beginning, but cannot meaningfully pursue casting yet. The show should appear only through background aspiration and hints until the player has built enough money, access, relationships, and social position to enter the show-adjacent tier.
 
@@ -139,7 +141,7 @@ Do not merge to `main` or deploy any environment without Paige's explicit destin
 
 ## Recommended Next Step
 
-Verify the latest `feature/vertical-slice` build, then have Paige replay at least two routes with special attention to whether the early job/housing/dating/social tradeoffs now feel like one coherent life-sim loop. Keep the full career ladder in issue #17 rather than expanding it into this slice.
+Verify the latest `feature/week-2-slice` build, then have Paige play at least two Week 2 routes. Pay special attention to whether career progress, the $600 move-out target, dating/home choices, and Bellweather access feel like one coherent loop. Keep the full career ladder in issue #17.
 
 
 
@@ -188,7 +190,7 @@ Keep the file current and concise. Remove stale details when they stop being use
 - Separate feedback, implementation, verification, and promotion authority.
 - Working player fantasy: ordinary person → elite reality-TV social world → maintain relevance without losing money/relationships/identity → later use accumulated social knowledge in a real mystery.
 - Persistent system families: Money/Lifestyle, Access/Cast Status, Relationships, Reputation/Relevance, Secrets/Information.
-- Time is the main scarcity constraint; no mobile-style energy meter in the first slice.
+- Time is the main scarcity constraint in the current slices. Energy/fatigue is a future mechanic to evaluate, not currently implemented; avoid real-world waiting/mobile-grind patterns if revisited.
 - Core relationship values: Affection, Trust, Social Value; other relationship conditions are tags/states.
 - Cast Status and Relevance are separate.
 - Working status ladder: Outsider → Guest → Friend Of → Full-Time → Veteran.
@@ -267,3 +269,15 @@ External or destructive actions require Paige's explicit authorization at the ap
 - Updated the player-facing HUD/sidebar so the first slice foregrounds job, housing, cash, free time, and social footing instead of abstract future-facing relevance metrics.
 - Expanded the game vision with persistent career progression and show-era work/business conflicts; created issue #17 for the future career system.
 - Verified the domain model and route logic locally without promoting or deploying the branch.
+
+
+### 2026-09-27 — Week 2 slice implementation
+
+- Created issue #18 and branch `feature/week-2-slice` from the merged Week 1 main state.
+- Added a Week 1 → Week 2 transition that preserves persistent progress and refreshes a 10-hour weekly time budget.
+- Added a concrete $600 move-out fund target and an apartment-looking action.
+- Added paid Calder Café work plus a first better-job step at the Bellweather Hotel.
+- Added a second ordinary dating interaction and a Nia/home contribution tradeoff.
+- Added the Bellweather Hotel benefit as a second, better local social room with Ava, Mara, Nia, and work-based access paths.
+- Kept the entire slice pre-show; no casting or filming progression was added.
+- Logged energy/fatigue as a future mechanic to evaluate rather than adding it now.
