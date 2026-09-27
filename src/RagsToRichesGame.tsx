@@ -130,7 +130,7 @@ export default function RagsToRichesGame() {
 
         {state.phase === 'ending' && <EndingSummary state={state} />}
 
-        {state.phase === 'ending' && (
+        {state.phase === 'ending' && scene.choices.length === 0 && (
           <div className="mt-6 flex flex-wrap gap-3">
             <button className="rounded-full bg-stone-900 px-5 py-3 text-white" onClick={startNew}>Play another route</button>
             <button className="rounded-full border border-stone-400 px-5 py-3" onClick={resetSave}>Reset save</button>
