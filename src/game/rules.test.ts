@@ -44,6 +44,42 @@ describe('vertical slice route rules', () => {
     expect(choiceAvailable(state, choice('prep', 'work-route'))).toBe(true);
   });
 
+
+  it('requires the café job before the Bellweather job can unlock', () => {
+    const initial = { ...createInitialGameState(), timeRemaining: 10 };
+    expect(choiceAvailable(initial, choice('week2_hub', 'week2-better-job'))).toBe(false);
+
+    const employed = gameReducer(initial, {
+      type: 'applyChoice',
+      nextSceneId: 'week2_hub',
+      effects: [{ type: 'history', id: 'got_cafe_job' }],
+    });
+    expect(choiceAvailable(employed, choice('week2_hub', 'week2-better-job'))).toBe(true);
+  });
+
+  it('allows different Week 2 paths into the Bellweather benefit', () => {
+    const avaRoute = gameReducer(createInitialGameState(), {
+      type: 'applyChoice',
+      nextSceneId: 'week2_hub',
+      effects: [{ type: 'relationship', characterId: 'ava', metric: 'socialValue', amount: 20 }],
+    });
+    expect(choiceAvailable(avaRoute, choice('week2_hub', 'week2-ava-route'))).toBe(true);
+
+    const niaRoute = gameReducer(createInitialGameState(), {
+      type: 'applyChoice',
+      nextSceneId: 'week2_hub',
+      effects: [{ type: 'history', id: 'contributed_to_nia' }],
+    });
+    expect(choiceAvailable(niaRoute, choice('week2_hub', 'week2-nia-route'))).toBe(true);
+
+    const workRoute = gameReducer(createInitialGameState(), {
+      type: 'applyChoice',
+      nextSceneId: 'week2_hub',
+      effects: [{ type: 'history', id: 'got_hotel_job' }],
+    });
+    expect(choiceAvailable(workRoute, choice('week2_hub', 'week2-work-route'))).toBe(true);
+  });
+
   it('allows the dud date only while the player can afford its time and cost', () => {
     const state = createInitialGameState();
     expect(choiceAvailable(state, choice('prep', 'date-again'))).toBe(true);
