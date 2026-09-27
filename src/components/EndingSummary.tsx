@@ -46,6 +46,14 @@ export default function EndingSummary({ state }: Props) {
     ? 'You built a real connection with Celeste instead of that conversation disappearing after Juniper.'
     : null;
 
+  const schedule = has(state, 'week3_event_conflict_work')
+    ? 'Your assigned Calder shift took Saturday night, so you earned the money and missed the gallery supper.'
+    : has(state, 'week3_cafe_called_out')
+      ? 'You kept Saturday night free by calling out of Calder, which may hurt your reliability there.'
+      : has(state, 'week3_hotel_flexible_schedule')
+        ? 'Bellweather let you choose your shift, so you could work without giving up Saturday night.'
+        : null;
+
   const rumor = has(state, 'rumor_repeated')
     ? 'Mara remembers that you helped spread the false cuff story.'
     : has(state, 'rumor_questioned')
@@ -65,6 +73,7 @@ export default function EndingSummary({ state }: Props) {
         {presentation && <li>{presentation}</li>}
         {observation && <li>{observation}</li>}
         {celeste && <li>{celeste}</li>}
+        {schedule && <li>{schedule}</li>}
         {rumor && <li>{rumor}</li>}
       </ul>
     </section>

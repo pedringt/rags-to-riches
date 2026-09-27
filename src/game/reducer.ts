@@ -59,7 +59,7 @@ const applyEffect = (state: GameState, effect: Effect): GameState => {
 };
 
 const inferPhase = (sceneId: string): GameState['phase'] => {
-  if (sceneId === 'ending') return 'ending';
+  if (sceneId === 'ending' || sceneId.endsWith('_ending')) return 'ending';
   if (sceneId.startsWith('event')) return 'event';
   return 'prep';
 };

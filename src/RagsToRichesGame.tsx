@@ -89,11 +89,17 @@ export default function RagsToRichesGame() {
                 </div>
                 <div>
                   <span className="block text-[10px] uppercase tracking-[0.16em] text-stone-400">Social</span>
-                  {state.history.some((event) => event.id === 'completed_week2')
-                    ? state.history.some((event) => event.id === 'skipped_bellweather')
-                      ? 'You chose other priorities over the Bellweather benefit this week.'
-                      : 'You made it through a second, better social room without reaching the show yet.'
-                    : state.history.some((event) => event.id.startsWith('bellweather_access_'))
+                  {state.history.some((event) => event.id === 'week3_show_adjacent_event')
+                    ? state.history.some((event) => event.id === 'met_tamsin_socially')
+                      ? 'You reached a show-adjacent room and met Main Character field producer Tamsin socially.'
+                      : 'You reached your first clearly show-adjacent room without entering casting.'
+                    : state.history.some((event) => event.id === 'week3_event_conflict_work')
+                      ? 'Your assigned Calder shift overlapped the gallery supper, so work won this week.'
+                      : state.history.some((event) => event.id === 'completed_week2')
+                        ? state.history.some((event) => event.id === 'skipped_bellweather')
+                          ? 'You chose other priorities over the Bellweather benefit.'
+                          : 'You made it through a second, better social room without reaching the show yet.'
+                        : state.history.some((event) => event.id.startsWith('bellweather_access_'))
                       ? 'You found a way into the Bellweather benefit.'
                       : state.history.some((event) => event.id === 'entered_better_social_circle')
                         ? 'You made it into Juniper House last week. That progress still counts.'
@@ -130,7 +136,7 @@ export default function RagsToRichesGame() {
 
         {state.phase === 'ending' && <EndingSummary state={state} />}
 
-        {state.phase === 'ending' && (
+        {state.phase === 'ending' && scene.choices.length === 0 && (
           <div className="mt-6 flex flex-wrap gap-3">
             <button className="rounded-full bg-stone-900 px-5 py-3 text-white" onClick={startNew}>Play another route</button>
             <button className="rounded-full border border-stone-400 px-5 py-3" onClick={resetSave}>Reset save</button>

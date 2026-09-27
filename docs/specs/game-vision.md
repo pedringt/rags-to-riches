@@ -933,3 +933,23 @@ Before major implementation, the project should likely define:
 
 This document should be revised as those decisions become settled.
 
+
+
+## Time and Schedule Direction
+
+Time should feel like a calendar constraint rather than an energy meter.
+
+Working rules:
+- small admin such as applications, messages, and listing research should usually take about 1 hour
+- interviews and dates take moderate blocks
+- work shifts use believable 4- or 8-hour blocks when appropriate
+- social events happen at fixed times and consume real blocks
+- a conflict means the player cannot simply spend abstract points on both commitments
+
+Career progression changes schedule control:
+- early service work may assign shifts with little player control
+- better work can offer more choice over available shifts
+- freelance/business paths may later offer more control but less stability
+- reality-TV production can eventually take that control away again through filming schedules, pickup shoots, trips, and producer demands
+
+A key design principle is that a better career can improve the player's control over time, not just their paycheck.
