@@ -195,11 +195,27 @@ Nia also mentions a Juniper House opening this weekend. It is not especially gla
         ],
       },
       {
+        id: 'cafe-first-shift',
+        label: 'Work your first Calder Café shift',
+        description: 'Spend 2 hours learning the job and earn $45. It is just a normal shift, not a social event.',
+        nextSceneId: 'prep',
+        conditions: [
+          { type: 'minTime', amount: 2 },
+          { type: 'history', id: 'got_cafe_job' },
+          { type: 'notHistory', id: 'worked_cafe_once' },
+        ],
+        effects: [
+          { type: 'time', amount: -2 },
+          { type: 'cash', amount: 45 },
+          { type: 'history', id: 'worked_cafe_once', note: 'Completed a first ordinary shift at Calder Café.' },
+        ],
+      },
+      {
         id: 'work-route',
-        label: 'Take Calder Café’s catering shift at the opening',
-        description: 'You got the job. Your first paid shift happens to be at Juniper House. You will get inside as staff and earn $65.',
+        label: 'Take a Calder Café catering shift at Juniper House',
+        description: 'After your first regular shift, the café offers you event work. Take it if you want the money and a staff-side way into Juniper House.',
         nextSceneId: 'event_arrival',
-        conditions: [{ type: 'history', id: 'got_cafe_job' }],
+        conditions: [{ type: 'history', id: 'worked_cafe_once' }],
         effects: [
           { type: 'cash', amount: 65 },
           { type: 'accessRoute', route: 'work' },
@@ -411,11 +427,32 @@ You have ten free hours this week. Work, savings, dating, Nia, and another bette
         ],
       },
       {
-        id: 'week2-date',
-        label: 'Try another date',
+        id: 'week2-first-date',
+        label: 'Try a dating-app date',
         description: 'Spend 2 hours and $22 meeting someone who seems normal enough to be worth one drink.',
         nextSceneId: 'week2_date',
-        conditions: [{ type: 'minTime', amount: 2 }, { type: 'minCash', amount: 22 }, { type: 'notHistory', id: 'went_on_week2_date' }],
+        conditions: [
+          { type: 'minTime', amount: 2 },
+          { type: 'minCash', amount: 22 },
+          { type: 'notHistory', id: 'went_on_dud_date' },
+          { type: 'notHistory', id: 'went_on_week2_date' },
+        ],
+        effects: [
+          { type: 'time', amount: -2 },
+          { type: 'cash', amount: -22 },
+        ],
+      },
+      {
+        id: 'week2-another-date',
+        label: 'Try another date',
+        description: 'Spend 2 hours and $22 giving the apps another shot after last week’s dud.',
+        nextSceneId: 'week2_date',
+        conditions: [
+          { type: 'minTime', amount: 2 },
+          { type: 'minCash', amount: 22 },
+          { type: 'history', id: 'went_on_dud_date' },
+          { type: 'notHistory', id: 'went_on_week2_date' },
+        ],
         effects: [
           { type: 'time', amount: -2 },
           { type: 'cash', amount: -22 },
@@ -522,11 +559,32 @@ Ava mentions a benefit at the Bellweather Hotel this weekend. It is a step above
         ],
       },
       {
-        id: 'week2-date-again',
-        label: 'Try another date',
-        description: 'Spend 2 hours and $22. This one looks promising enough to try, not promising enough to plan around.',
+        id: 'week2-first-date-hub',
+        label: 'Try a dating-app date',
+        description: 'Spend 2 hours and $22. You skipped dating last week, so this is your first try.',
         nextSceneId: 'week2_date',
-        conditions: [{ type: 'minTime', amount: 2 }, { type: 'minCash', amount: 22 }, { type: 'notHistory', id: 'went_on_week2_date' }],
+        conditions: [
+          { type: 'minTime', amount: 2 },
+          { type: 'minCash', amount: 22 },
+          { type: 'notHistory', id: 'went_on_dud_date' },
+          { type: 'notHistory', id: 'went_on_week2_date' },
+        ],
+        effects: [
+          { type: 'time', amount: -2 },
+          { type: 'cash', amount: -22 },
+        ],
+      },
+      {
+        id: 'week2-another-date-hub',
+        label: 'Try another date',
+        description: 'Spend 2 hours and $22. This one looks more promising than last week’s dud.',
+        nextSceneId: 'week2_date',
+        conditions: [
+          { type: 'minTime', amount: 2 },
+          { type: 'minCash', amount: 22 },
+          { type: 'history', id: 'went_on_dud_date' },
+          { type: 'notHistory', id: 'went_on_week2_date' },
+        ],
         effects: [
           { type: 'time', amount: -2 },
           { type: 'cash', amount: -22 },
