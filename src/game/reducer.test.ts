@@ -39,6 +39,28 @@ describe('gameReducer', () => {
     expect(next.history.some((event) => event.id === 'unemployed')).toBe(true);
   });
 
+
+  it('starts a new week without resetting persistent progress', () => {
+    const state = {
+      ...createInitialGameState(),
+      cash: 140,
+      timeRemaining: 1,
+      accessRoute: 'friend' as const,
+    };
+    const next = gameReducer(state, {
+      type: 'applyChoice',
+      nextSceneId: 'week2_start',
+      effects: [{ type: 'history', id: 'entered_better_social_circle' }, { type: 'newWeek', time: 10 }],
+    });
+
+    expect(next.day).toBe(8);
+    expect(next.timeRemaining).toBe(10);
+    expect(next.cash).toBe(140);
+    expect(next.accessRoute).toBe(null);
+    expect(next.history.some((event) => event.id === 'entered_better_social_circle')).toBe(true);
+    expect(next.history.some((event) => event.id === 'living_with_nia')).toBe(true);
+  });
+
   it('changes relationship values without exceeding bounds', () => {
     const state = createInitialGameState();
     const next = gameReducer(state, {

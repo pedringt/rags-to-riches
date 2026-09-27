@@ -1,7 +1,7 @@
 import type { GameState } from './types';
 
 export const createInitialGameState = (): GameState => ({
-  saveVersion: 1,
+  saveVersion: 2,
   phase: 'prep',
   sceneId: 'morning',
   day: 1,
@@ -16,6 +16,7 @@ export const createInitialGameState = (): GameState => ({
     nia: { affection: 70, trust: 75, socialValue: 10, tags: ['friend', 'roommate'] },
     ava: { affection: 25, trust: 30, socialValue: 35, tags: ['acquaintance'] },
     mara: { affection: 0, trust: 0, socialValue: 0, tags: [] },
+    celeste: { affection: 0, trust: 0, socialValue: 25, tags: ['acquaintance'] },
   },
   knowledge: [],
   history: [

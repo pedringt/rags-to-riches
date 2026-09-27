@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useReducer, useState } from 'react';
+import EndingSummary from './components/EndingSummary';
 import GameHud from './components/GameHud';
 import RelationshipStrip from './components/RelationshipStrip';
 import ScenePanel from './components/ScenePanel';
@@ -72,21 +73,35 @@ export default function RagsToRichesGame() {
               <div className="mt-3 space-y-3 text-sm leading-6">
                 <div>
                   <span className="block text-[10px] uppercase tracking-[0.16em] text-stone-400">Work</span>
-                  {state.history.some((event) => event.id === 'got_cafe_job')
-                    ? 'You have a part-time job at Calder Café.'
-                    : state.history.some((event) => event.id === 'job_search_started')
-                      ? 'You have started applying. An interview is the next step.'
-                      : 'You need income. Job hunting is still waiting.'}
+                  {state.history.some((event) => event.id === 'got_hotel_job')
+                    ? 'You moved up to guest-services shifts at the Bellweather Hotel.'
+                    : state.history.some((event) => event.id === 'got_cafe_job')
+                      ? 'You have a part-time job at Calder Café.'
+                      : state.history.some((event) => event.id === 'job_search_started')
+                        ? 'You have started applying. An interview is the next step.'
+                        : 'You need income. Job hunting is still waiting.'}
                 </div>
                 <div>
                   <span className="block text-[10px] uppercase tracking-[0.16em] text-stone-400">Housing</span>
-                  You are staying with Nia. Your own place is an early goal, but you need steadier income and savings first.
+                  {state.history.some((event) => event.id === 'apartment_target_known')
+                    ? 'You are staying with Nia. Your first move-out fund target is $600.'
+                    : 'You are staying with Nia. Your own place is an early goal, but you need steadier income and savings first.'}
                 </div>
                 <div>
                   <span className="block text-[10px] uppercase tracking-[0.16em] text-stone-400">Social</span>
-                  {state.accessRoute
-                    ? 'You found a way into Juniper House.'
-                    : 'You are still building the relationships that get you into better rooms.'}
+                  {state.history.some((event) => event.id === 'completed_week2')
+                    ? state.history.some((event) => event.id === 'skipped_bellweather')
+                      ? 'You chose other priorities over the Bellweather benefit this week.'
+                      : 'You made it through a second, better social room without reaching the show yet.'
+                    : state.history.some((event) => event.id.startsWith('bellweather_access_'))
+                      ? 'You found a way into the Bellweather benefit.'
+                      : state.history.some((event) => event.id === 'entered_better_social_circle')
+                        ? 'You made it into Juniper House last week. That progress still counts.'
+                        : state.history.some((event) => event.id === 'skipped_juniper')
+                          ? 'You skipped Juniper House and kept your time for other priorities.'
+                          : state.accessRoute
+                            ? 'You found a way into Juniper House.'
+                            : 'You are still building the relationships that get you into better rooms.'}
                 </div>
               </div>
             </section>
@@ -97,7 +112,9 @@ export default function RagsToRichesGame() {
                 <p className="mt-2 text-sm leading-6 text-stone-500">Nothing important yet.</p>
               ) : (
                 <ul className="mt-3 space-y-3 text-sm leading-6">
-                  {state.knowledge.map((item) => (
+                  {state.knowledge
+                    .filter((item) => !(item.id === 'missing_cuff_rumor' && state.knowledge.some((known) => known.id === 'missing_cuff_resolved')))
+                    .map((item) => (
                     <li key={item.id} className="rounded-xl bg-stone-100 p-3">
                       <span className="block text-[10px] uppercase tracking-[0.16em] text-stone-400">{item.kind} · {item.confidence}</span>
                       {item.claim}
@@ -110,6 +127,8 @@ export default function RagsToRichesGame() {
         </div>
 
         <div className="mt-5"><RelationshipStrip state={state} /></div>
+
+        {state.phase === 'ending' && <EndingSummary state={state} />}
 
         {state.phase === 'ending' && (
           <div className="mt-6 flex flex-wrap gap-3">
