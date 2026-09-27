@@ -3,30 +3,27 @@ import type { Scene } from '../game/types';
 export const scenes: Record<string, Scene> = {
   morning: {
     id: 'morning',
-    eyebrow: 'Day 1 · Morning',
+    eyebrow: 'Monday morning',
     title: 'Nia’s couch, for now',
-    body: `Your suitcase is still half-unpacked beside Nia's couch. She told you not to rush, but you have been here long enough to know you want a place of your own.
+    body: `Your suitcase is still half-unpacked beside Nia's couch. She keeps telling you not to worry about it, but you need work, you need savings, and eventually you need a place of your own.
 
-A rerun of Main Character plays quietly while you get ready for work. You have wanted that life for years. Right now, though, you have $120, eight free hours before tonight, and a much smaller goal: save for a deposit and start meeting people outside your usual circle.
-
-Ava, an events consultant you know through work, mentioned a small opening tonight at Juniper House. It is not a TV event. It is just the kind of place where people with better invitations meet each other.`,
+You still have the long-term dream of ending up on Main Character someday. Right now that is almost beside the point. You have $90, eight free hours this week, and several ordinary problems competing for them.`,
     choices: [
       {
-        id: 'work',
-        label: 'Take an extra shift',
-        description: 'Spend 4 hours working and earn $80 toward your own place.',
+        id: 'job-search',
+        label: 'Apply for jobs',
+        description: 'Spend 3 hours updating applications and sending them out. No money now, but it could lead to steady income.',
         nextSceneId: 'prep',
-        conditions: [{ type: 'minTime', amount: 4 }, { type: 'notHistory', id: 'worked_extra_shift' }],
+        conditions: [{ type: 'minTime', amount: 3 }, { type: 'notHistory', id: 'job_search_started' }],
         effects: [
-          { type: 'time', amount: -4 },
-          { type: 'cash', amount: 80 },
-          { type: 'history', id: 'worked_extra_shift', note: 'Worked an extra shift instead of using the afternoon socially.' },
+          { type: 'time', amount: -3 },
+          { type: 'history', id: 'job_search_started', note: 'Spent time applying for entry-level local jobs.' },
         ],
       },
       {
         id: 'nia',
         label: 'Get lunch with Nia',
-        description: 'Spend 2 hours and $12 catching up with the friend letting you stay with her.',
+        description: 'Spend 2 hours and $12 with the friend letting you stay with her. She knows people outside your usual circle.',
         nextSceneId: 'prep',
         conditions: [{ type: 'minTime', amount: 2 }, { type: 'notHistory', id: 'met_nia' }],
         effects: [
@@ -39,8 +36,8 @@ Ava, an events consultant you know through work, mentioned a small opening tonig
       },
       {
         id: 'ava',
-        label: 'Help Ava finish a client presentation',
-        description: 'Spend 3 hours helping Ava fix a last-minute work problem. She may owe you one.',
+        label: 'Help Ava with a client presentation',
+        description: 'Spend 3 hours helping an acquaintance fix a last-minute problem. She works around local events and may remember the favor.',
         nextSceneId: 'prep',
         conditions: [{ type: 'minTime', amount: 3 }, { type: 'notHistory', id: 'helped_ava' }],
         effects: [
@@ -52,45 +49,78 @@ Ava, an events consultant you know through work, mentioned a small opening tonig
         ],
       },
       {
-        id: 'wardrobe',
-        label: 'Find something better to wear',
-        description: 'Spend $45 and 2 hours on an outfit that will help you fit in if you get invited.',
-        nextSceneId: 'prep',
-        conditions: [{ type: 'minCash', amount: 45 }, { type: 'minTime', amount: 2 }, { type: 'notHistory', id: 'bought_look' }],
+        id: 'date',
+        label: 'Go on a dating-app coffee',
+        description: 'Spend 2 hours and about $18. It might be fun. It might just be two hours you could have spent job hunting.',
+        nextSceneId: 'date_dud',
+        conditions: [{ type: 'minTime', amount: 2 }, { type: 'minCash', amount: 18 }, { type: 'notHistory', id: 'went_on_dud_date' }],
         effects: [
           { type: 'time', amount: -2 },
-          { type: 'cash', amount: -45 },
-          { type: 'lifestyle', amount: 1 },
-          { type: 'reputation', amount: 1 },
-          { type: 'history', id: 'bought_look' },
+          { type: 'cash', amount: -18 },
         ],
       },
     ],
   },
-  prep: {
-    id: 'prep',
-    eyebrow: 'Day 1 · Afternoon',
-    title: 'Can you get into Juniper House tonight?',
-    body: `The opening starts tonight. You still need an invitation or a reason to be there.
 
-You can spend more of the afternoon preparing, or use a connection you have already built. Whatever you spend now is money and time you are not putting toward your own apartment.`,
+  date_dud: {
+    id: 'date_dud',
+    eyebrow: 'Coffee date',
+    title: 'Not every date is a connection',
+    body: `His profile said "entrepreneur." Twenty minutes in, you learn that means he is between jobs, building an app he cannot explain, and currently sleeping in his cousin's game room.
+
+He spends most of the date talking about his ex. When he finally asks about you, it is to see whether Nia charges you rent.`,
     choices: [
       {
-        id: 'work-again',
-        label: 'Take an extra shift',
-        description: 'Spend 4 hours working and earn $80. Your manager may also need help at tonight’s opening.',
+        id: 'end-date',
+        label: 'Finish your coffee and head out',
+        description: 'No romance, no useful connection. Just a mildly funny story for Nia.',
         nextSceneId: 'prep',
-        conditions: [{ type: 'minTime', amount: 4 }, { type: 'notHistory', id: 'worked_extra_shift' }],
         effects: [
-          { type: 'time', amount: -4 },
-          { type: 'cash', amount: 80 },
-          { type: 'history', id: 'worked_extra_shift' },
+          { type: 'relationship', characterId: 'nia', metric: 'affection', amount: 2 },
+          { type: 'history', id: 'went_on_dud_date', note: 'An early dating-app date went nowhere.' },
+        ],
+      },
+    ],
+  },
+
+  prep: {
+    id: 'prep',
+    eyebrow: 'Later this week',
+    title: 'What gets your time next?',
+    body: `You cannot fix everything at once. Job hunting helps your bank account later. Social plans cost money now. Dating may lead somewhere eventually, or nowhere at all.
+
+Nia also mentions a Juniper House opening this weekend. It is not especially glamorous by the standards you daydream about, but it is a better room than the ones you usually get invited into.`,
+    choices: [
+      {
+        id: 'job-search-again',
+        label: 'Apply for jobs',
+        description: 'Spend 3 hours sending applications. This needs to happen before you can land an interview.',
+        nextSceneId: 'prep',
+        conditions: [{ type: 'minTime', amount: 3 }, { type: 'notHistory', id: 'job_search_started' }],
+        effects: [
+          { type: 'time', amount: -3 },
+          { type: 'history', id: 'job_search_started' },
+        ],
+      },
+      {
+        id: 'interview',
+        label: 'Interview at Calder Café',
+        description: 'Spend 3 hours getting ready, traveling, and interviewing for a steady front-of-house job.',
+        nextSceneId: 'prep',
+        conditions: [
+          { type: 'minTime', amount: 3 },
+          { type: 'history', id: 'job_search_started' },
+          { type: 'notHistory', id: 'got_cafe_job' },
+        ],
+        effects: [
+          { type: 'time', amount: -3 },
+          { type: 'history', id: 'got_cafe_job', note: 'Hired for part-time front-of-house work at Calder Café.' },
         ],
       },
       {
         id: 'nia-again',
         label: 'Get lunch with Nia',
-        description: 'Spend 2 hours and $12 together. She knows someone helping with the opening.',
+        description: 'Spend 2 hours and $12 together. She has a friend with an extra invitation to Juniper House.',
         nextSceneId: 'prep',
         conditions: [{ type: 'minTime', amount: 2 }, { type: 'notHistory', id: 'met_nia' }],
         effects: [
@@ -104,7 +134,7 @@ You can spend more of the afternoon preparing, or use a connection you have alre
       {
         id: 'ava-again',
         label: 'Help Ava finish her presentation',
-        description: 'Spend 3 hours helping Ava. If it goes well, she can put your name on tonight’s guest list.',
+        description: 'Spend 3 hours helping Ava. If it goes well, she can put your name on the Juniper House guest list.',
         nextSceneId: 'prep',
         conditions: [{ type: 'minTime', amount: 3 }, { type: 'notHistory', id: 'helped_ava' }],
         effects: [
@@ -116,9 +146,20 @@ You can spend more of the afternoon preparing, or use a connection you have alre
         ],
       },
       {
-        id: 'wardrobe-again',
-        label: 'Shop for a better outfit',
-        description: 'Spend $45 and 2 hours. It will help once you are inside, but it will not get you through the door.',
+        id: 'date-again',
+        label: 'Try the dating app',
+        description: 'Spend 2 hours and $18 on a coffee date. Your dating options are pretty ordinary right now.',
+        nextSceneId: 'date_dud',
+        conditions: [{ type: 'minTime', amount: 2 }, { type: 'minCash', amount: 18 }, { type: 'notHistory', id: 'went_on_dud_date' }],
+        effects: [
+          { type: 'time', amount: -2 },
+          { type: 'cash', amount: -18 },
+        ],
+      },
+      {
+        id: 'wardrobe',
+        label: 'Buy something nicer to wear',
+        description: 'Spend $45 and 2 hours. It may help you feel less out of place at Juniper House, but it slows your apartment savings.',
         nextSceneId: 'prep',
         conditions: [{ type: 'minCash', amount: 45 }, { type: 'minTime', amount: 2 }, { type: 'notHistory', id: 'bought_look' }],
         effects: [
@@ -131,7 +172,7 @@ You can spend more of the afternoon preparing, or use a connection you have alre
       },
       {
         id: 'friend-route',
-        label: 'Go as Nia’s plus-one',
+        label: 'Go to Juniper House as Nia’s plus-one',
         description: 'Nia’s friend has a spare invitation. You will arrive as someone’s guest, not as a VIP.',
         nextSceneId: 'event_arrival',
         conditions: [{ type: 'history', id: 'met_nia' }],
@@ -144,7 +185,7 @@ You can spend more of the afternoon preparing, or use a connection you have alre
       {
         id: 'favor-route',
         label: 'Ask Ava to put you on the guest list',
-        description: 'Ava can get you in because you helped her today. You will owe some of that access to the favor.',
+        description: 'Ava can get you in because you helped her. You will owe some of that access to the favor.',
         nextSceneId: 'event_arrival',
         conditions: [{ type: 'relationshipMin', characterId: 'ava', metric: 'socialValue', amount: 55 }],
         effects: [
@@ -155,24 +196,26 @@ You can spend more of the afternoon preparing, or use a connection you have alre
       },
       {
         id: 'work-route',
-        label: 'Work the opening',
-        description: 'Your manager needs an extra pair of hands. You will get inside, but you will be there as staff.',
+        label: 'Take Calder Café’s catering shift at the opening',
+        description: 'You got the job. Your first paid shift happens to be at Juniper House. You will get inside as staff and earn $65.',
         nextSceneId: 'event_arrival',
-        conditions: [{ type: 'history', id: 'worked_extra_shift' }],
+        conditions: [{ type: 'history', id: 'got_cafe_job' }],
         effects: [
+          { type: 'cash', amount: 65 },
           { type: 'accessRoute', route: 'work' },
           { type: 'history', id: 'access_work' },
         ],
       },
     ],
   },
+
   event_arrival: {
     id: 'event_arrival',
     eyebrow: 'Juniper House Opening',
-    title: 'A nicer room than you are used to',
-    body: `Juniper House is packed with local business owners, stylists, restaurateurs, people with family money, and people who are very good at looking like they have family money.
+    title: 'A better room than usual',
+    body: `Juniper House is crowded with local business owners, stylists, restaurateurs, people with family money, and people who are very good at looking like they have family money.
 
-This is not Main Character. No one is filming. But you recognize one woman from a photo Nia once showed you: Mara Solis, who has been seen at parties with the cast. For the first time, the world you watch on TV feels only a few rooms away instead of completely imaginary.`,
+For now, this is enough. You are trying to learn how rooms like this work and whether you can become someone who gets invited back.`,
     variants: [
       {
         conditions: [{ type: 'history', id: 'access_friend' }],
@@ -184,14 +227,14 @@ This is not Main Character. No one is filming. But you recognize one woman from 
       },
       {
         conditions: [{ type: 'history', id: 'access_work' }],
-        body: `You spend the first hour carrying trays and solving small problems. People barely notice staff, which means they also forget to lower their voices around you.`,
+        body: `You spend the first hour carrying trays and solving small problems. It is your first paid shift in a while, and people also forget to lower their voices around staff.`,
       },
     ],
     choices: [
       {
         id: 'talk-mara',
         label: 'Introduce yourself to Mara',
-        description: 'She is connected to people you would like to know, but you have no reason to pretend you are already part of her world.',
+        description: 'She runs a small design business and seems to know half the room.',
         nextSceneId: 'event_rumor',
         effects: [
           { type: 'relationship', characterId: 'mara', metric: 'affection', amount: 8 },
@@ -202,7 +245,7 @@ This is not Main Character. No one is filming. But you recognize one woman from 
       {
         id: 'talk-celeste',
         label: 'Join Celeste’s conversation',
-        description: 'She runs a local foundation and seems to know everyone worth knowing.',
+        description: 'She runs a local foundation and seems established enough that nobody is trying to impress her.',
         nextSceneId: 'event_rumor',
         effects: [
           { type: 'reputation', amount: 2 },
@@ -221,6 +264,7 @@ This is not Main Character. No one is filming. But you recognize one woman from 
       },
     ],
   },
+
   event_rumor: {
     id: 'event_rumor',
     eyebrow: 'Later · Juniper House',
@@ -278,50 +322,48 @@ Neither person saw the cuff disappear. Ten minutes later, people are repeating t
       },
     ],
   },
+
   event_finale: {
     id: 'event_finale',
     eyebrow: 'End of the night',
-    title: 'You leave with another invitation',
+    title: 'A small step forward',
     body: `The cuff turns up under a stack of event materials. The accusation was wrong, but the people who repeated it do not all look embarrassed.
 
-Before you leave, Ava mentions another opening next month and says she can introduce you to the organizer. Nia points out that six months ago you would not have known anyone in this room.
+Before you leave, Ava mentions another opening next month and says she can introduce you to the organizer. Nia points out that a week ago you were mostly thinking about applications, rent, and whether sleeping on her couch was becoming permanent.
 
-On a television over the bar, a muted Main Character promo starts playing. That dream is still far away. Tonight was not about getting cast. It was about getting one rung closer to the kind of life where that dream might eventually become realistic.`,
+Those problems are not solved. You have just added one useful thing to your life: a slightly better circle of people.`,
     variants: [
       {
+        conditions: [{ type: 'history', id: 'got_cafe_job' }],
+        body: `You also have a job now. It is not glamorous, but steady income changes what you can realistically do next.`,
+      },
+      {
         conditions: [{ type: 'history', id: 'rumor_questioned' }],
-        body: `Mara remembers that you asked her directly instead of joining the pile-on. That is not friendship yet, but it is a better beginning than gossip would have given you.`,
+        body: `Mara remembers that you asked her directly instead of joining the pile-on. That is not friendship yet, but it is a decent start.`,
       },
       {
         conditions: [{ type: 'history', id: 'rumor_repeated' }],
-        body: `You got pulled into the room faster by repeating the story, but Mara is colder with you now. Getting noticed and getting trusted are already proving to be different things.`,
-      },
-      {
-        conditions: [{ type: 'history', id: 'rumor_kept_private' }],
-        body: `You leave knowing something about how this crowd works: a story can become social currency long before anyone knows whether it is true.`,
+        body: `You got pulled into the conversation faster by repeating the story, but Mara is colder with you now. Getting noticed and getting trusted are already different things.`,
       },
     ],
     choices: [
       {
         id: 'finish',
         label: 'Head back to Nia’s place',
-        description: 'You still need your own apartment. But now you also have a reason to believe you can keep climbing.',
+        description: 'You still need savings and your own apartment. Now you also have another invitation to look forward to.',
         nextSceneId: 'ending',
-        effects: [
-          { type: 'history', id: 'entered_better_social_circle' },
-        ],
+        effects: [{ type: 'history', id: 'entered_better_social_circle' }],
       },
     ],
   },
+
   ending: {
     id: 'ending',
     eyebrow: 'Vertical slice complete',
-    title: 'One rung up',
-    body: `You are still sleeping at Nia’s place. You are still saving for your own apartment. Nobody from Main Character knows your name.
+    title: 'Still at the beginning',
+    body: `You are still staying with Nia. Your savings are still thin. Depending on how you spent the week, you may have found work, gone on a terrible date, made a useful connection, or traded one kind of progress for another.
 
-But you now know people who can get you into places you could not enter yesterday, and one of those people has already mentioned another invitation.
-
-The show is still the long-term goal. For now, your job is to build a life that can actually get you there.`,
+That is the climb for now: build enough stability that you can afford to keep saying yes when better opportunities appear.`,
     choices: [],
   },
 };
