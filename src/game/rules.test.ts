@@ -53,16 +53,21 @@ describe('vertical slice route rules', () => {
   });
 
 
-  it('requires the café job before the Bellweather job can unlock', () => {
+  it('requires real café experience before the Bellweather job can unlock', () => {
     const initial = { ...createInitialGameState(), timeRemaining: 10 };
-    expect(choiceAvailable(initial, choice('week2_hub', 'week2-better-job'))).toBe(false);
-
     const employed = gameReducer(initial, {
       type: 'applyChoice',
       nextSceneId: 'week2_hub',
       effects: [{ type: 'history', id: 'got_cafe_job' }],
     });
-    expect(choiceAvailable(employed, choice('week2_hub', 'week2-better-job'))).toBe(true);
+    expect(choiceAvailable(employed, choice('week2_hub', 'week2-better-job'))).toBe(false);
+
+    const experienced = gameReducer(employed, {
+      type: 'applyChoice',
+      nextSceneId: 'week2_hub',
+      effects: [{ type: 'history', id: 'cafe_experience' }],
+    });
+    expect(choiceAvailable(experienced, choice('week2_hub', 'week2-better-job'))).toBe(true);
   });
 
   it('allows different Week 2 paths into the Bellweather benefit', () => {
@@ -83,29 +88,57 @@ describe('vertical slice route rules', () => {
     const workRoute = gameReducer(createInitialGameState(), {
       type: 'applyChoice',
       nextSceneId: 'week2_hub',
-      effects: [{ type: 'history', id: 'got_hotel_job' }],
+      effects: [{ type: 'history', id: 'worked_hotel_once' }],
     });
     expect(choiceAvailable(workRoute, choice('week2_hub', 'week2-work-route'))).toBe(true);
   });
 
 
-  it('uses first-date wording when Week 1 dating was skipped', () => {
+  it('keeps first-date wording history-aware in the persistent Week 2 hub', () => {
     const state = { ...createInitialGameState(), timeRemaining: 10, cash: 100 };
-    expect(choiceAvailable(state, choice('week2_start', 'week2-first-date'))).toBe(true);
-    expect(choiceAvailable(state, choice('week2_start', 'week2-another-date'))).toBe(false);
+    expect(choiceAvailable(state, choice('week2_hub', 'week2-first-date-hub'))).toBe(true);
+    expect(choiceAvailable(state, choice('week2_hub', 'week2-another-date-hub'))).toBe(false);
+
+    const afterDud = gameReducer(state, {
+      type: 'applyChoice',
+      nextSceneId: 'week2_hub',
+      effects: [{ type: 'history', id: 'went_on_dud_date' }],
+    });
+    expect(choiceAvailable(afterDud, choice('week2_hub', 'week2-first-date-hub'))).toBe(false);
+    expect(choiceAvailable(afterDud, choice('week2_hub', 'week2-another-date-hub'))).toBe(true);
   });
 
-  it('uses another-date wording when the player already dated in Week 1', () => {
-    const state = gameReducer(
-      { ...createInitialGameState(), timeRemaining: 10, cash: 100 },
-      {
-        type: 'applyChoice',
-        nextSceneId: 'week2_start',
-        effects: [{ type: 'history', id: 'went_on_dud_date' }],
-      },
-    );
-    expect(choiceAvailable(state, choice('week2_start', 'week2-first-date'))).toBe(false);
-    expect(choiceAvailable(state, choice('week2_start', 'week2-another-date'))).toBe(true);
+  it('keeps unresolved job search available in Week 2', () => {
+    const state = { ...createInitialGameState(), timeRemaining: 10 };
+    expect(choiceAvailable(state, choice('week2_hub', 'week2-job-search'))).toBe(true);
+
+    const afterSearch = gameReducer(state, {
+      type: 'applyChoice',
+      nextSceneId: 'week2_hub',
+      effects: [{ type: 'history', id: 'job_search_started' }],
+    });
+    expect(choiceAvailable(afterSearch, choice('week2_hub', 'week2-interview-cafe'))).toBe(true);
+  });
+
+  it('requires an existing Mara connection for Mara to invite the player to Bellweather', () => {
+    const questionedOnly = gameReducer(createInitialGameState(), {
+      type: 'applyChoice',
+      nextSceneId: 'week2_hub',
+      effects: [{ type: 'history', id: 'rumor_questioned' }],
+    });
+    expect(choiceAvailable(questionedOnly, choice('week2_hub', 'week2-mara-route'))).toBe(false);
+
+    const connected = gameReducer(questionedOnly, {
+      type: 'applyChoice',
+      nextSceneId: 'week2_hub',
+      effects: [{ type: 'history', id: 'chose_mara' }],
+    });
+    expect(choiceAvailable(connected, choice('week2_hub', 'week2-mara-route'))).toBe(true);
+  });
+
+  it('always leaves an explicit way to end each week without attending the social event', () => {
+    expect(choiceAvailable(createInitialGameState(), choice('prep', 'skip-juniper'))).toBe(true);
+    expect(choiceAvailable({ ...createInitialGameState(), timeRemaining: 0 }, choice('week2_hub', 'skip-bellweather'))).toBe(true);
   });
 
   it('allows the dud date only while the player can afford its time and cost', () => {
