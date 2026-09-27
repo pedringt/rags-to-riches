@@ -837,7 +837,415 @@ But the choices are starting to connect. Work can lead to better work. Relations
     title: 'The climb is starting to connect',
     body: `You are still pre-show. That is intentional.
 
-The question now is whether balancing work, savings, housing, dating, friendships, and better social opportunities is interesting enough to carry the game before cameras ever become part of your life.`,
+The next week is where the calendar starts pushing back. Work has real shifts. Events happen at real times. A better job can give you more control over your schedule, while an entry-level job may simply tell you when to show up.`,
+    choices: [
+      {
+        id: 'start-week3',
+        label: 'Start week three',
+        description: 'Carry everything forward into a fuller week with 20 usable hours.',
+        nextSceneId: 'week3_start',
+        effects: [{ type: 'newWeek', time: 20 }],
+      },
+    ],
+  },
+
+  week3_start: {
+    id: 'week3_start',
+    eyebrow: 'Week three',
+    title: 'Your calendar belongs to other people too',
+    body: `You have twenty usable hours this week, but that does not mean every hour is interchangeable. Small tasks can fit around your life. Shifts and events cannot.
+
+Ava mentions a Saturday gallery supper at 7:30 PM. It is the first room you have heard about where people from Main Character sometimes turn up socially. Nobody is casting. Nobody is filming. It is simply closer to the world you have been trying to reach.`,
+    variants: [
+      {
+        conditions: [{ type: 'history', id: 'got_hotel_job' }],
+        body: `Bellweather posts two open guest-services shifts and lets you choose one. The better job is already buying you something besides money: more control over your week.`,
+      },
+      {
+        conditions: [{ type: 'history', id: 'got_cafe_job' }, { type: 'notHistory', id: 'got_hotel_job' }],
+        body: `Calder posts your schedule for you: Saturday, 2:00 to 10:00 PM. The gallery supper starts at 7:30. You do not get to pretend those commitments do not overlap.`,
+      },
+      {
+        conditions: [{ type: 'notHistory', id: 'got_cafe_job' }, { type: 'notHistory', id: 'got_hotel_job' }],
+        body: `You still do not have a job assigning your time, which gives you freedom but not stability.`,
+      },
+    ],
+    choices: [
+      {
+        id: 'week3-plan',
+        label: 'Plan the week',
+        description: 'See the small tasks, work commitments, and Saturday conflict together.',
+        nextSceneId: 'week3_hub',
+      },
+    ],
+  },
+
+  week3_hub: {
+    id: 'week3_hub',
+    eyebrow: 'Week three',
+    title: 'What fits, and what conflicts?',
+    body: `The smaller things fit around the edges of your week. Applications, listings, errands, and messages take an hour or two. Work shifts take real blocks. The gallery supper is fixed at Saturday 7:30 PM and lasts about three hours.`,
+    variants: [
+      {
+        conditions: [{ type: 'history', id: 'week3_cafe_shift_worked' }],
+        body: `You worked Calder's assigned Saturday shift. That covered the entire gallery supper, so that opportunity is gone this week.`,
+      },
+      {
+        conditions: [{ type: 'history', id: 'week3_cafe_called_out' }],
+        body: `You kept Saturday night free by calling out of Calder. The social opportunity is still open, but your job now has a reason to question your reliability.`,
+      },
+      {
+        conditions: [{ type: 'history', id: 'week3_hotel_flexible_schedule' }],
+        body: `You chose your Bellweather shift around Saturday night. The event is still available because your job gave you some control over the calendar.`,
+      },
+    ],
+    choices: [
+      {
+        id: 'week3-job-search',
+        label: 'Send out job applications',
+        description: 'Spend 1 hour. Small admin should fit around bigger commitments.',
+        nextSceneId: 'week3_hub',
+        conditions: [
+          { type: 'minTime', amount: 1 },
+          { type: 'notHistory', id: 'job_search_started' },
+          { type: 'notHistory', id: 'got_cafe_job' },
+          { type: 'notHistory', id: 'got_hotel_job' },
+        ],
+        effects: [
+          { type: 'time', amount: -1 },
+          { type: 'history', id: 'job_search_started', note: 'Spent an hour sending job applications.' },
+        ],
+      },
+      {
+        id: 'week3-cafe-interview',
+        label: 'Interview at Calder Café',
+        description: 'Spend 2 hours including travel and prep.',
+        nextSceneId: 'week3_hub',
+        conditions: [
+          { type: 'minTime', amount: 2 },
+          { type: 'history', id: 'job_search_started' },
+          { type: 'notHistory', id: 'got_cafe_job' },
+          { type: 'notHistory', id: 'got_hotel_job' },
+        ],
+        effects: [
+          { type: 'time', amount: -2 },
+          { type: 'history', id: 'got_cafe_job', note: 'Hired for part-time front-of-house work at Calder Café.' },
+        ],
+      },
+      {
+        id: 'week3-apartment-research',
+        label: 'Check apartment listings',
+        description: 'Spend 1 hour comparing listings and saving realistic options.',
+        nextSceneId: 'week3_hub',
+        conditions: [
+          { type: 'minTime', amount: 1 },
+          { type: 'history', id: 'apartment_target_known' },
+          { type: 'notHistory', id: 'week3_apartment_shortlist' },
+        ],
+        effects: [
+          { type: 'time', amount: -1 },
+          { type: 'history', id: 'week3_apartment_shortlist', note: 'Shortlisted a few realistic studios.' },
+        ],
+      },
+      {
+        id: 'week3-studio-application',
+        label: 'Submit an application for a tiny studio',
+        description: 'Spend 1 hour and a $50 application fee. You keep the $600 move-in money intact if you have enough cash.',
+        nextSceneId: 'week3_hub',
+        conditions: [
+          { type: 'minTime', amount: 1 },
+          { type: 'minCash', amount: 650 },
+          { type: 'history', id: 'week3_apartment_shortlist' },
+          { type: 'notHistory', id: 'studio_application_submitted' },
+        ],
+        effects: [
+          { type: 'time', amount: -1 },
+          { type: 'cash', amount: -50 },
+          { type: 'history', id: 'studio_application_submitted', note: 'Submitted a studio application while preserving the $600 move-in fund.' },
+        ],
+      },
+      {
+        id: 'week3-nia',
+        label: 'Run errands with Nia',
+        description: 'Spend 1 hour helping with groceries and household stuff instead of treating the couch like a hotel.',
+        nextSceneId: 'week3_hub',
+        conditions: [
+          { type: 'minTime', amount: 1 },
+          { type: 'notHistory', id: 'week3_helped_nia' },
+        ],
+        effects: [
+          { type: 'time', amount: -1 },
+          { type: 'relationship', characterId: 'nia', metric: 'affection', amount: 4 },
+          { type: 'relationship', characterId: 'nia', metric: 'trust', amount: 4 },
+          { type: 'history', id: 'week3_helped_nia' },
+        ],
+      },
+      {
+        id: 'week3-hotel-friday',
+        label: 'Choose Bellweather: Friday 4-8 PM',
+        description: 'Work a 4-hour shift for $100. You choose the slot, so Saturday night stays open.',
+        nextSceneId: 'week3_hub',
+        conditions: [
+          { type: 'minTime', amount: 4 },
+          { type: 'history', id: 'got_hotel_job' },
+          { type: 'notHistory', id: 'week3_work_shift_done' },
+        ],
+        effects: [
+          { type: 'time', amount: -4 },
+          { type: 'cash', amount: 100 },
+          { type: 'history', id: 'week3_work_shift_done' },
+          { type: 'history', id: 'week3_hotel_flexible_schedule', note: 'Chose a Friday Bellweather shift to keep Saturday night open.' },
+        ],
+      },
+      {
+        id: 'week3-hotel-saturday',
+        label: 'Choose Bellweather: Saturday 9 AM-1 PM',
+        description: 'Work a 4-hour shift for $100. It still leaves the evening free.',
+        nextSceneId: 'week3_hub',
+        conditions: [
+          { type: 'minTime', amount: 4 },
+          { type: 'history', id: 'got_hotel_job' },
+          { type: 'notHistory', id: 'week3_work_shift_done' },
+        ],
+        effects: [
+          { type: 'time', amount: -4 },
+          { type: 'cash', amount: 100 },
+          { type: 'history', id: 'week3_work_shift_done' },
+          { type: 'history', id: 'week3_hotel_flexible_schedule', note: 'Chose a Saturday morning Bellweather shift and kept Saturday night open.' },
+        ],
+      },
+      {
+        id: 'week3-cafe-shift',
+        label: 'Work Calder's assigned Saturday 2-10 PM shift',
+        description: 'Work the full 8-hour shift for $160. You will miss the gallery supper.',
+        nextSceneId: 'week3_hub',
+        conditions: [
+          { type: 'minTime', amount: 8 },
+          { type: 'history', id: 'got_cafe_job' },
+          { type: 'notHistory', id: 'got_hotel_job' },
+          { type: 'notHistory', id: 'week3_schedule_resolved' },
+        ],
+        effects: [
+          { type: 'time', amount: -8 },
+          { type: 'cash', amount: 160 },
+          { type: 'history', id: 'week3_schedule_resolved' },
+          { type: 'history', id: 'week3_cafe_shift_worked', note: 'Worked Calder assigned Saturday 2-10 PM shift and missed the gallery supper.' },
+          { type: 'history', id: 'week3_event_conflict_work' },
+        ],
+      },
+      {
+        id: 'week3-cafe-callout',
+        label: 'Call out of Calder and keep Saturday night free',
+        description: 'Keep the event open, but damage your reliability at an early job where you do not have much leverage.',
+        nextSceneId: 'week3_hub',
+        conditions: [
+          { type: 'history', id: 'got_cafe_job' },
+          { type: 'notHistory', id: 'got_hotel_job' },
+          { type: 'notHistory', id: 'week3_schedule_resolved' },
+        ],
+        effects: [
+          { type: 'reputation', amount: -1 },
+          { type: 'history', id: 'week3_schedule_resolved' },
+          { type: 'history', id: 'week3_cafe_called_out', note: 'Called out of an assigned Calder shift to keep Saturday night free.' },
+        ],
+      },
+      {
+        id: 'week3-event-ava',
+        label: 'Go to the Saturday gallery supper with Ava',
+        description: 'Saturday, 7:30-10:30 PM. Ava can bring you because you have already proven useful to her.',
+        nextSceneId: 'event3_arrival',
+        conditions: [
+          { type: 'minTime', amount: 3 },
+          { type: 'history', id: 'helped_ava' },
+          { type: 'notHistory', id: 'week3_event_conflict_work' },
+          { type: 'notHistory', id: 'week3_show_adjacent_event' },
+        ],
+        effects: [
+          { type: 'time', amount: -3 },
+          { type: 'history', id: 'week3_show_adjacent_event' },
+          { type: 'history', id: 'week3_show_access_ava' },
+        ],
+      },
+      {
+        id: 'week3-event-celeste',
+        label: 'Take Celeste's gallery supper introduction',
+        description: 'Saturday, 7:30-10:30 PM. Celeste puts your name on the list.',
+        nextSceneId: 'event3_arrival',
+        conditions: [
+          { type: 'minTime', amount: 3 },
+          { type: 'history', id: 'chose_celeste' },
+          { type: 'notHistory', id: 'week3_event_conflict_work' },
+          { type: 'notHistory', id: 'week3_show_adjacent_event' },
+        ],
+        effects: [
+          { type: 'time', amount: -3 },
+          { type: 'history', id: 'week3_show_adjacent_event' },
+          { type: 'history', id: 'week3_show_access_celeste' },
+        ],
+      },
+      {
+        id: 'week3-event-organizer',
+        label: 'Use the Bellweather organizer invitation',
+        description: 'Saturday, 7:30-10:30 PM. The organizer remembers you and forwards a spare invitation.',
+        nextSceneId: 'event3_arrival',
+        conditions: [
+          { type: 'minTime', amount: 3 },
+          { type: 'history', id: 'met_bellweather_organizer' },
+          { type: 'notHistory', id: 'week3_event_conflict_work' },
+          { type: 'notHistory', id: 'week3_show_adjacent_event' },
+        ],
+        effects: [
+          { type: 'time', amount: -3 },
+          { type: 'history', id: 'week3_show_adjacent_event' },
+          { type: 'history', id: 'week3_show_access_organizer' },
+        ],
+      },
+      {
+        id: 'week3-event-hotel',
+        label: 'Take a coworker spare gallery supper invitation',
+        description: 'Saturday, 7:30-10:30 PM. Bellweather has put you around people who get invitations like this.',
+        nextSceneId: 'event3_arrival',
+        conditions: [
+          { type: 'minTime', amount: 3 },
+          { type: 'history', id: 'got_hotel_job' },
+          { type: 'history', id: 'week3_work_shift_done' },
+          { type: 'notHistory', id: 'week3_show_adjacent_event' },
+        ],
+        effects: [
+          { type: 'time', amount: -3 },
+          { type: 'history', id: 'week3_show_adjacent_event' },
+          { type: 'history', id: 'week3_show_access_hotel' },
+        ],
+      },
+      {
+        id: 'week3-end',
+        label: 'End the week',
+        description: 'Keep the progress you made. Missing Saturday is a consequence, not a dead end.',
+        nextSceneId: 'week3_ending',
+        effects: [{ type: 'history', id: 'completed_week3' }],
+      },
+    ],
+  },
+
+  event3_arrival: {
+    id: 'event3_arrival',
+    eyebrow: 'Saturday - 7:30 PM',
+    title: 'Close enough to recognize the machinery',
+    body: `The gallery supper is smaller than Bellweather and more carefully mixed: local money, creative people, a few recognizable faces, and people whose jobs seem to involve knowing everyone.
+
+Across the room, Ava quietly points out Tamsin Reed, a field producer on Main Character. You know the name from the credits. She is here socially. There are no cameras, no casting table, and no reason she should care who you are.
+
+That is what makes the room feel different. For the first time, the show is not just something on your television. Someone who helps make it is twenty feet away.`,
+    variants: [
+      {
+        conditions: [{ type: 'history', id: 'week3_cafe_called_out' }],
+        body: `You got here by skipping an assigned cafe shift. The opportunity is real, and so is the cost waiting for you at work.`,
+      },
+      {
+        conditions: [{ type: 'history', id: 'week3_hotel_flexible_schedule' }],
+        body: `Bellweather let you choose a shift that did not collide with tonight. Schedule control turned into social access without requiring you to blow up your job.`,
+      },
+    ],
+    choices: [
+      {
+        id: 'event3-tamsin',
+        label: 'Talk to Tamsin like a normal person',
+        description: 'Do not pitch yourself. Ask how she knows the gallery host and let the conversation be a conversation.',
+        nextSceneId: 'event3_finale',
+        effects: [
+          { type: 'history', id: 'met_tamsin_socially', note: 'Met Main Character field producer Tamsin Reed socially without pitching for the show.' },
+          { type: 'reputation', amount: 1 },
+        ],
+      },
+      {
+        id: 'event3-observe',
+        label: 'Stay with your connection and observe',
+        description: 'Notice how show people move through a normal social room without turning the night into an audition.',
+        nextSceneId: 'event3_finale',
+        effects: [
+          {
+            type: 'knowledge',
+            item: { id: 'production_social_world', kind: 'fact', claim: 'People connected to Main Character move through the same social network as local organizers, donors, hospitality workers, and event regulars.', confidence: 'medium', public: false },
+          },
+          { type: 'history', id: 'observed_show_adjacent_room' },
+        ],
+      },
+      {
+        id: 'event3-leave-early',
+        label: 'Leave before you start forcing it',
+        description: 'You made it into the room. Do not turn one useful invitation into a desperate audition.',
+        nextSceneId: 'event3_finale',
+        effects: [
+          { type: 'relationship', characterId: 'ava', metric: 'trust', amount: 3 },
+          { type: 'history', id: 'left_show_adjacent_event_early' },
+        ],
+      },
+    ],
+  },
+
+  event3_finale: {
+    id: 'event3_finale',
+    eyebrow: 'Saturday night',
+    title: 'Adjacent is not inside',
+    body: `Nothing cinematic happens. Tamsin does not hand you a contract. Nobody suddenly decides you belong on television.
+
+The important change is smaller: you now know that the show's world overlaps with the social world you have been building toward. Access did not come from pressing an audition button. It came from work, favors, introductions, and being in the right room without acting like the room owed you anything.`,
+    variants: [
+      {
+        conditions: [{ type: 'history', id: 'met_tamsin_socially' }],
+        body: `Tamsin remembers your name by the end of the conversation. That is all. For now, that is enough.`,
+      },
+      {
+        conditions: [{ type: 'history', id: 'observed_show_adjacent_room' }],
+        body: `You leave with a clearer map of how production sits inside the same network you have already been learning to navigate.`,
+      },
+      {
+        conditions: [{ type: 'history', id: 'week3_cafe_called_out' }],
+        body: `Tomorrow you still have to deal with Calder. Social progress did not erase the work consequence that bought you the evening.`,
+      },
+    ],
+    choices: [
+      {
+        id: 'finish-week3-event',
+        label: 'Finish the week',
+        description: 'Carry the schedule choices and consequences with you.',
+        nextSceneId: 'week3_ending',
+        effects: [{ type: 'history', id: 'completed_week3' }],
+      },
+    ],
+  },
+
+  week3_ending: {
+    id: 'week3_ending',
+    eyebrow: 'Week three complete',
+    title: 'Time is becoming part of the climb',
+    body: `The week was fuller because small tasks did not consume entire afternoons. The hard choices came from actual commitments instead.
+
+A shift can take half a day. An event happens when it happens. A better job can give you more control over your calendar. An entry-level job can take that control away.
+
+You are still not cast on Main Character. But the distance between your ordinary life and that world is getting measurable now.`,
+    variants: [
+      {
+        conditions: [{ type: 'history', id: 'week3_event_conflict_work' }],
+        body: `You chose the assigned Calder shift and missed the gallery supper. You earned the money and lost the opportunity. Neither result is hidden.`,
+      },
+      {
+        conditions: [{ type: 'history', id: 'week3_cafe_called_out' }],
+        body: `You chose the gallery over an assigned Calder shift. You gained access, but your job now has a reason to trust you less.`,
+      },
+      {
+        conditions: [{ type: 'history', id: 'week3_hotel_flexible_schedule' }],
+        body: `Bellweather gave you enough schedule control to work and still keep Saturday night. Career progress changed the shape of the choice, not just the size of the paycheck.`,
+      },
+      {
+        conditions: [{ type: 'history', id: 'studio_application_submitted' }],
+        body: `You also turned the housing goal into a real application instead of leaving it as a number on the HUD.`,
+      },
+      {
+        conditions: [{ type: 'history', id: 'met_tamsin_socially' }],
+        body: `You have now met someone who works on Main Character, but you did not jump straight into casting. The show is close enough to matter without becoming the whole game yet.`,
+      },
+    ],
     choices: [],
   },
 };
