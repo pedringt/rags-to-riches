@@ -90,12 +90,18 @@ export default function RagsToRichesGame() {
                 <div>
                   <span className="block text-[10px] uppercase tracking-[0.16em] text-stone-400">Social</span>
                   {state.history.some((event) => event.id === 'completed_week2')
-                    ? 'You made it through a second, better social room without reaching the show yet.'
+                    ? state.history.some((event) => event.id === 'skipped_bellweather')
+                      ? 'You chose other priorities over the Bellweather benefit this week.'
+                      : 'You made it through a second, better social room without reaching the show yet.'
                     : state.history.some((event) => event.id.startsWith('bellweather_access_'))
                       ? 'You found a way into the Bellweather benefit.'
-                      : state.accessRoute
-                        ? 'You found a way into Juniper House.'
-                        : 'You are still building the relationships that get you into better rooms.'}
+                      : state.history.some((event) => event.id === 'entered_better_social_circle')
+                        ? 'You made it into Juniper House last week. That progress still counts.'
+                        : state.history.some((event) => event.id === 'skipped_juniper')
+                          ? 'You skipped Juniper House and kept your time for other priorities.'
+                          : state.accessRoute
+                            ? 'You found a way into Juniper House.'
+                            : 'You are still building the relationships that get you into better rooms.'}
                 </div>
               </div>
             </section>
@@ -106,7 +112,9 @@ export default function RagsToRichesGame() {
                 <p className="mt-2 text-sm leading-6 text-stone-500">Nothing important yet.</p>
               ) : (
                 <ul className="mt-3 space-y-3 text-sm leading-6">
-                  {state.knowledge.map((item) => (
+                  {state.knowledge
+                    .filter((item) => !(item.id === 'missing_cuff_rumor' && state.knowledge.some((known) => known.id === 'missing_cuff_resolved')))
+                    .map((item) => (
                     <li key={item.id} className="rounded-xl bg-stone-100 p-3">
                       <span className="block text-[10px] uppercase tracking-[0.16em] text-stone-400">{item.kind} · {item.confidence}</span>
                       {item.claim}
