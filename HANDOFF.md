@@ -35,16 +35,17 @@ The evolving design direction is documented in `docs/specs/game-vision.md`. Read
 
 ## Current Product Shape
 
-`main` / production now contains the first playable pre-show vertical slice from issue #15.
+`main` / production contains the merged Week 1 + Week 2 pre-show slice through PR #19.
 
-On the authorized implementation branch `feature/week-2-slice`, issue #18 extends that slice into a second week:
+The active continuation branch is `feature/week-3-schedule` for issue #20 / draft PR #21.
 
-1. **Week 1** — the player starts unemployed, staying with Nia, and reaches Juniper House through friend, favor, or work access.
-2. **Week transition** — persistent cash, relationships, history, and information carry forward while a fresh 10-hour Week 2 budget begins.
-3. **Housing target** — the player can make a $600 move-out fund concrete by looking at apartments with Nia.
-4. **Career step** — Calder Café can lead to paid shifts and a better guest-services opportunity at the Bellweather Hotel.
-5. **Ordinary life continues** — dating and contributing at Nia's home compete with work and savings.
-6. **Second social tier** — the Bellweather benefit is a better local room, still explicitly pre-show, with multiple access paths tied to prior choices.
+Current playable progression:
+
+1. **Week 1** — unemployed, staying with Nia, looking for work, building initial relationships, and optionally reaching Juniper House.
+2. **Week 2** — persistent progress carries forward; Calder Café can lead to Bellweather Hotel; housing, dating, home life, work, and the Bellweather benefit compete for time.
+3. **Week 3** — the time economy is more realistic. Small admin actions are cheap, work shifts are real 4–8 hour commitments, and fixed event times can directly conflict with work.
+4. **Schedule-control progression** — Calder may assign the player a Saturday 2–10 PM shift; Bellweather offers a choice of 4-hour shifts, making schedule control a real career reward.
+5. **First show adjacency** — a Saturday gallery supper can put the player in the same room as `Main Character` field producer Tamsin Reed, socially and without casting or filming.
 
 The original inherited prototype remains preserved at `originals/rags-to-riches-v3.tsx`.
 
@@ -69,7 +70,7 @@ Initial repository setup remains on `main` with Vite + React + TypeScript + Tail
 
 ### Current implementation branch
 
-`feature/week-2-slice` extends the issue #15 foundation for issue #18 and currently includes:
+`feature/week-3-schedule` extends the merged Week 1 + Week 2 foundation for issue #20 and currently includes:
 
 - serializable typed `GameState`
 - reducer-style domain actions
@@ -84,7 +85,9 @@ Initial repository setup remains on `main` with Vite + React + TypeScript + Tail
 
 Three.js remains available in the project but is not a dependency of the new game-state layer.
 
-Week 2 adds a bounded `newWeek` state effect, a $600 housing target, paid café work, a first better-job step, a second ordinary date, a Nia/home contribution choice, and the Bellweather benefit. Dependency-backed tests/build are verified through the Vercel Git build gate when the branch reaches READY.
+Week 2 adds a bounded `newWeek` state effect, a $600 housing target, paid café work, a first better-job step, a second ordinary date, a Nia/home contribution choice, and the Bellweather benefit.
+
+Week 3 adds 16/18/20-hour weekly budgets across Weeks 1–3, cheaper 1-hour admin tasks, 4-hour standard shifts, an 8-hour assigned Calder shift, fixed-time event conflicts, Bellweather shift choice, additional housing/home actions, and the first show-adjacent social event. Dependency-backed tests/build are verified through the Vercel Git build gate when the branch reaches READY.
 
 ## Working Agreement
 
@@ -141,25 +144,27 @@ Do not merge to `main` or deploy any environment without Paige's explicit destin
 
 ## Recommended Next Step
 
-Verify the latest `feature/week-2-slice` build, then have Paige play at least two Week 2 routes. Pay special attention to whether career progress, the $600 move-out target, dating/home choices, and Bellweather access feel like one coherent loop. Keep the full career ladder in issue #17.
+The next phase is **playtest / feedback only** on `feature/week-3-schedule`.
 
+Have Paige play at least these routes:
 
+1. **Calder + work the assigned Saturday shift** — confirm the gallery event is missed and the tradeoff feels fair.
+2. **Calder + call out** — confirm the event remains available and the work consequence is clear.
+3. **Bellweather** — choose a flexible shift and confirm the player can both work and keep Saturday night.
+4. **Non-social priority route** — spend more time on housing, money, or Nia and end the week without treating the event as mandatory.
 
-Have Paige play through the current build and collect observations about:
+Evaluate:
 
-- what is fun
-- what feels tedious
-- what is confusing
-- what feels disconnected between phases
-- which systems have meaningful choices versus busywork
-- pacing
-- tone
-- replayability
-- story branches and consequences
-- mobile/layout issues
-- bugs
+- whether 16 → 18 → 20 usable hours feels right
+- whether 1-hour admin tasks now feel appropriately cheap
+- whether 4- and 8-hour work blocks feel believable
+- whether fixed-time conflicts are understandable without a calendar UI
+- whether the player can do enough in a week without doing everything
+- whether Week 3 consequences and copy match actual history
+- whether the first show-adjacent moment feels earned rather than abrupt
+- whether the current abstract time pool is sufficient or a simple weekly calendar is now needed
 
-Do not turn that list into code until Paige explicitly closes the feedback round and authorizes implementation.
+Do not implement fixes during this playtest round. Collect feedback first, then summarize agreed changes and wait for explicit implementation authorization.
 
 ## Risks / Watchouts
 
@@ -215,6 +220,10 @@ Keep the file current and concise. Remove stale details when they stop being use
 ## Open Questions
 
 These remain intentionally unresolved and should not be silently settled by an implementation agent:
+
+- whether the abstract weekly usable-hours model is sufficient after Week 3, or whether the next step should be a simple visible weekly calendar with actual slots
+- whether 16 / 18 / 20 usable hours are the right Week 1 / 2 / 3 budgets after real playtesting
+- how severe Calder call-out consequences should become if the player repeatedly prioritizes social opportunities
 
 - final game title and whether it matches the in-universe show title
 - exact invented city / social scene
@@ -321,4 +330,24 @@ External or destructive actions require Paige's explicit authorization at the ap
 - Added 1-hour apartment research, studio application, and Nia/home actions so the week supports more small decisions.
 - Added the first show-adjacent social event with field producer Tamsin Reed present socially. No casting or filming begins.
 - Added schedule status to the HUD and automated coverage for time costs, fixed-shift conflicts, flexible shifts, and Week 3 ending behavior.
-- Latest branch deployment for commit `afc240408d1d587eb3ad65e56d92eaf64a012ef8` reached READY, so Vitest + TypeScript/Vite build passed.
+- Latest verified gameplay/UI branch commit `22c46be35a1ea9309923503699698c1531931569` reached READY, so Vitest + TypeScript/Vite build passed.
+- Draft PR #21 packages the Week 3 slice against `main`. Do not merge it without Paige explicitly authorizing `main`.
+- Issue #20 tracks this bounded Week 3 slice; issue #17 remains the broader long-term career system.
+
+
+## Continuation Point for Next Agent / Chat
+
+Start here rather than reconstructing the project:
+
+- Read this `HANDOFF.md` and `docs/specs/game-vision.md`.
+- Active branch: `feature/week-3-schedule`.
+- Active bounded scope: issue #20.
+- Draft PR: #21.
+- Latest verified gameplay/UI commit: `22c46be35a1ea9309923503699698c1531931569`.
+- Branch preview alias: `https://rags-to-riches-git-feature-week-3-schedule-cairn10.vercel.app`.
+- Production/main should remain untouched until Paige explicitly authorizes a merge to `main`.
+- Immediate task is to collect Paige's Week 3 playtest feedback, not implement more story content.
+- Do not start Week 4 or casting work until the Week 3 time/schedule model has been judged in play.
+- The key product decision after playtesting is whether to keep the abstract usable-hours model or move to a simple visible weekly calendar.
+
+A wrong turn would be to treat Week 3 as approved for production, automatically expand into casting, or replace the current schedule experiment with a large calendar/energy system before Paige has played it.
