@@ -48,6 +48,7 @@ export type Effect =
   | { type: 'reputation'; amount: number }
   | { type: 'relevance'; amount: number }
   | { type: 'time'; amount: number }
+  | { type: 'newWeek'; time: number }
   | { type: 'relationship'; characterId: string; metric: RelationshipMetric; amount: number }
   | { type: 'relationshipTag'; characterId: string; tag: string }
   | { type: 'history'; id: string; note?: string }
