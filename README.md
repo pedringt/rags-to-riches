@@ -38,3 +38,7 @@ npm run build
 The current game component still contains its built-in developer controls. These are useful while testing the simulation, dating, and visual-novel phases and should remain enabled during the initial feedback period.
 
 The main game remains intentionally unsplit in `src/RagsToRichesGame.tsx` so the first working version stays close to the original handoff. Refactoring can happen later as a separate, deliberate change.
+
+## Working across AI coding agents
+
+Project continuity is maintained in [HANDOFF.md](HANDOFF.md). ChatGPT, Claude Code, and other coding agents should read it before substantial work and update it after meaningful authorized changes.
