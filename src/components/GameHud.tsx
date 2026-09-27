@@ -2,14 +2,28 @@ import type { GameState } from '../game/types';
 
 type Props = { state: GameState };
 
+const has = (state: GameState, id: string) => state.history.some((event) => event.id === id);
+
 export default function GameHud({ state }: Props) {
+  const job = has(state, 'got_cafe_job')
+    ? 'Calder Café'
+    : has(state, 'job_search_started')
+      ? 'Job hunting'
+      : 'Unemployed';
+
+  const social = state.accessRoute
+    ? 'Invitation secured'
+    : has(state, 'met_nia') || has(state, 'helped_ava')
+      ? 'Building connections'
+      : 'Starting out';
+
   return (
     <div className="grid grid-cols-2 gap-2 sm:grid-cols-5">
       <Stat label="Cash" value={`$${state.cash}`} />
-      <Stat label="Time" value={`${state.timeRemaining}h`} />
-      <Stat label="Lifestyle" value={state.lifestyle} />
-      <Stat label="Reputation" value={state.reputation} />
-      <Stat label="Relevance" value={state.relevance} />
+      <Stat label="Free time" value={`${state.timeRemaining}h`} />
+      <Stat label="Job" value={job} />
+      <Stat label="Housing" value="Nia’s place" />
+      <Stat label="Social life" value={social} />
     </div>
   );
 }
