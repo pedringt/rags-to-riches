@@ -18,12 +18,12 @@ describe('gameReducer', () => {
       type: 'applyChoice',
       nextSceneId: 'prep',
       effects: [
-        { type: 'time', amount: -3 },
+        { type: 'time', amount: -1 },
         { type: 'history', id: 'job_search_started' },
       ],
     });
 
-    expect(next.timeRemaining).toBe(5);
+    expect(next.timeRemaining).toBe(15);
     expect(next.history.some((event) => event.id === 'job_search_started')).toBe(true);
   });
 
@@ -59,6 +59,34 @@ describe('gameReducer', () => {
     expect(next.accessRoute).toBe(null);
     expect(next.history.some((event) => event.id === 'entered_better_social_circle')).toBe(true);
     expect(next.history.some((event) => event.id === 'living_with_nia')).toBe(true);
+  });
+
+  it('starts Week 3 with a larger usable-time budget while preserving progress', () => {
+    const state = {
+      ...createInitialGameState(),
+      cash: 420,
+      timeRemaining: 2,
+      sceneId: 'ending',
+    };
+    const next = gameReducer(state, {
+      type: 'applyChoice',
+      nextSceneId: 'week3_start',
+      effects: [{ type: 'newWeek', time: 20 }],
+    });
+
+    expect(next.day).toBe(8);
+    expect(next.timeRemaining).toBe(20);
+    expect(next.cash).toBe(420);
+    expect(next.sceneId).toBe('week3_start');
+  });
+
+  it('recognizes the Week 3 ending as an ending phase', () => {
+    const next = gameReducer(createInitialGameState(), {
+      type: 'applyChoice',
+      nextSceneId: 'week3_ending',
+      effects: [{ type: 'history', id: 'completed_week3' }],
+    });
+    expect(next.phase).toBe('ending');
   });
 
   it('changes relationship values without exceeding bounds', () => {
