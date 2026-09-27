@@ -39,7 +39,7 @@ The evolving design direction is documented in `docs/specs/game-vision.md`. Read
 
 On the authorized implementation branch `feature/vertical-slice`, issue #15 replaces the working UI with the first slice of the new direction:
 
-1. **Ordinary-life starting point** — the player is staying at Nia's place, saving for an apartment, and still has a normal job/life.
+1. **Ordinary-life starting point** — the player is staying at Nia's place, unemployed, short on savings, and trying to get back on their feet.
 2. **First social climb** — use limited time, money, work, relationships, and presentation to reach a better local social event.
 3. **Better social tier** — meet more connected people and make an information-handling choice without directly pursuing the show.
 4. **Slice endpoint** — the player earns another invitation and moves one rung up socially; `Main Character` remains the long-term dream, not an immediately actionable casting goal.
@@ -198,7 +198,9 @@ Keep the file current and concise. Remove stale details when they stop being use
 - No backend, database, accounts, cloud saves, AI API, Ink, Zustand, or engine migration unless a concrete future need appears.
 - `Main Character` is the strongest current working title/show-name candidate, but remains provisional.
 - The player can begin with `Main Character` as an ultimate ambition, but direct pursuit of casting is gated behind substantial social/lifestyle progression.
-- The starting situation is intentionally low-status: the player is living with Nia while saving for a place of their own. Getting an independent home is an early progression milestone.
+- The starting situation is intentionally low-status: the player is living with Nia, begins unemployed with thin savings, and is trying to establish income before an independent home is realistic.
+- Early play should balance job hunting, savings, friendships, dating, presentation, and social opportunities. Pushing hard on one area should slow progress elsewhere.
+- Dating begins as ordinary life rather than a social-climbing shortcut. Early app dates can be duds; stronger romantic options can emerge later as the player's world expands.
 - Reality-TV inspiration should borrow social dynamics, not reproduce real cast members or storylines wholesale.
 
 ## Open Questions
@@ -258,4 +260,5 @@ External or destructive actions require Paige's explicit authorization at the ap
 - After Paige's first playtest, revised the pacing so the show is a distant long-term objective rather than the first immediate goal.
 - Changed the starting situation so the player is staying with Nia and saving for an apartment; the first slice now ends with entry into a better social tier instead of production noticing the player.
 - Rewrote choice copy to describe concrete player actions, costs, and likely outcomes more clearly.
+- Revised the start again so the player has no job yet. Job search and an interview now compete with social plans, wardrobe spending, and an optional early dud dating-app date.
 - Verified the domain model and route logic locally without promoting or deploying the branch.
