@@ -191,7 +191,10 @@ Keep the file current and concise. Remove stale details when they stop being use
 - Working player fantasy: ordinary person → elite reality-TV social world → maintain relevance without losing money/relationships/identity → later use accumulated social knowledge in a real mystery.
 - Persistent system families: Money/Lifestyle, Access/Cast Status, Relationships, Reputation/Relevance, Secrets/Information.
 - Time is the main scarcity constraint in the current slices. Energy/fatigue is a future mechanic to evaluate, not currently implemented; avoid real-world waiting/mobile-grind patterns if revisited.
+- Core unresolved problems persist until the player deals with them. Skipping job search, housing research, dating, or a social event must not silently erase that thread.
+- Social events are opportunities, not mandatory progression gates. The player can end a week without attending Juniper House or Bellweather and keep progress made elsewhere.
 - Core relationship values remain Affection, Trust, and Social Value internally; player-facing UI describes them as Affection, Trust, and Connection with qualitative labels instead of unexplained raw numbers.
+- Multiple compatible story consequences should be shown together rather than only the first matching consequence.
 - Cast Status and Relevance are separate.
 - Working status ladder: Outsider → Guest → Friend Of → Full-Time → Veteran.
 - Money and perceived wealth are distinct; money alone does not guarantee access.
@@ -285,3 +288,21 @@ External or destructive actions require Paige's explicit authorization at the ap
 - Replaced raw relationship numbers in the player UI with descriptive states for Affection, Trust, and Connection, while keeping numeric values internally for rules.
 - Added a plain-language end-of-run summary for job, savings/housing, dating, social progress, and the Week 1 rumor consequence.
 - Logged energy/fatigue as a future mechanic to evaluate rather than adding it now.
+
+
+### 2026-09-27 — Branch/story consistency audit fixes
+
+- Audited Week 1 and Week 2 story/state branches for continuity, dead-end paths, and choices whose copy did not match actual state.
+- Reworked Week 2 into a persistent hub so unresolved job search and interviews remain available after other choices.
+- Added explicit end-the-week options so Juniper House and Bellweather are optional opportunities rather than mandatory gates, eliminating soft-lock paths when time runs out.
+- Required real café experience before the Bellweather job interview and a normal Bellweather Hotel shift before event staffing.
+- Made Celeste a real tracked relationship and added a Bellweather introduction route from that branch.
+- Made Juniper observation produce persistent knowledge and surfaced wardrobe/observation consequences later instead of leaving them as hidden numbers only.
+- Made Juniper finale copy route-aware and changed scene rendering to show all compatible consequence paragraphs.
+- Added a resolved-cuff fact and hid the stale unresolved rumor once the resolution is known.
+- Corrected Week 2 date scene copy for players who skipped Week 1 dating.
+- Corrected Ava and Mara Bellweather route logic/copy; Mara now needs an actual prior connection plus thoughtful rumor handling.
+- Preserved Juniper social progress in the HUD across the week transition.
+- Fixed Week 2 event-phase classification.
+- Bumped the local save schema/key to v2 so incompatible old prototype saves do not load into the new story structure.
+- Updated automated tests for persistent goals, career gating, optional event skips, Mara access, and incompatible saves.
