@@ -5,7 +5,7 @@ export const createInitialGameState = (): GameState => ({
   phase: 'prep',
   sceneId: 'morning',
   day: 1,
-  timeRemaining: 8,
+  timeRemaining: 16,
   cash: 90,
   income: 0,
   lifestyle: 0,
