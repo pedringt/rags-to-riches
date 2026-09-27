@@ -1,8 +1,8 @@
 export const characters = {
   nia: {
     name: 'Nia Bell',
-    role: 'Your oldest friend',
-    note: 'Knows you before any of this matters.',
+    role: 'Your oldest friend and current host',
+    note: 'She is letting you stay with her while you save for a place of your own.',
   },
   ava: {
     name: 'Ava Mercer',
@@ -11,17 +11,17 @@ export const characters = {
   },
   mara: {
     name: 'Mara Solis',
-    role: 'Founder and show-adjacent regular',
-    note: 'Warm in public, difficult to read in private.',
+    role: 'Local founder with show-adjacent connections',
+    note: 'One of the first people you meet who is genuinely close to the world you want to reach.',
   },
   celeste: {
     name: 'Celeste Arden',
-    role: 'Longtime society fixture',
-    note: 'Does not need the show, which makes the show want her more.',
+    role: 'Local foundation director',
+    note: 'Established, connected, and not especially impressed by people trying too hard.',
   },
   tamsin: {
     name: 'Tamsin Reed',
     role: 'Field producer, Main Character',
-    note: 'Always listening for the version of a moment that will play on television.',
+    note: 'A future show-side connection. Not part of the first social-climb slice.',
   },
 };
