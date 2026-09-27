@@ -7,16 +7,16 @@ export const scenes: Record<string, Scene> = {
     title: 'Nia’s couch, for now',
     body: `Your suitcase is still half-unpacked beside Nia's couch. She keeps telling you not to worry about it, but you need work, you need savings, and eventually you need a place of your own.
 
-You still have the long-term dream of ending up on Main Character someday. Right now that is almost beside the point. You have $90, eight free hours this week, and several ordinary problems competing for them.`,
+You still have the long-term dream of ending up on Main Character someday. Right now that is almost beside the point. You have $90 and sixteen usable hours this week, and several ordinary problems competing for them.`,
     choices: [
       {
         id: 'job-search',
         label: 'Apply for jobs',
-        description: 'Spend 3 hours updating applications and sending them out. No money now, but it could lead to steady income.',
+        description: 'Spend 1 hour updating applications and sending them out. No money now, but it could lead to steady income.',
         nextSceneId: 'prep',
-        conditions: [{ type: 'minTime', amount: 3 }, { type: 'notHistory', id: 'job_search_started' }],
+        conditions: [{ type: 'minTime', amount: 1 }, { type: 'notHistory', id: 'job_search_started' }],
         effects: [
-          { type: 'time', amount: -3 },
+          { type: 'time', amount: -1 },
           { type: 'history', id: 'job_search_started', note: 'Spent time applying for entry-level local jobs.' },
         ],
       },
@@ -37,11 +37,11 @@ You still have the long-term dream of ending up on Main Character someday. Right
       {
         id: 'ava',
         label: 'Help Ava with a client presentation',
-        description: 'Spend 3 hours helping an acquaintance fix a last-minute problem. She works around local events and may remember the favor.',
+        description: 'Spend 2 hours helping an acquaintance fix a last-minute problem. She works around local events and may remember the favor.',
         nextSceneId: 'prep',
-        conditions: [{ type: 'minTime', amount: 3 }, { type: 'notHistory', id: 'helped_ava' }],
+        conditions: [{ type: 'minTime', amount: 2 }, { type: 'notHistory', id: 'helped_ava' }],
         effects: [
-          { type: 'time', amount: -3 },
+          { type: 'time', amount: -2 },
           { type: 'relationship', characterId: 'ava', metric: 'socialValue', amount: 20 },
           { type: 'relationship', characterId: 'ava', metric: 'trust', amount: 5 },
           { type: 'relationshipTag', characterId: 'ava', tag: 'owes_favor' },
@@ -94,9 +94,9 @@ Nia also mentions a Juniper House opening this weekend. It is not especially gla
       {
         id: 'job-search-again',
         label: 'Apply for jobs',
-        description: 'Spend 3 hours sending applications. This needs to happen before you can land an interview.',
+        description: 'Spend 1 hour sending applications. This needs to happen before you can land an interview.',
         nextSceneId: 'prep',
-        conditions: [{ type: 'minTime', amount: 3 }, { type: 'notHistory', id: 'job_search_started' }],
+        conditions: [{ type: 'minTime', amount: 1 }, { type: 'notHistory', id: 'job_search_started' }],
         effects: [
           { type: 'time', amount: -3 },
           { type: 'history', id: 'job_search_started' },
@@ -105,15 +105,15 @@ Nia also mentions a Juniper House opening this weekend. It is not especially gla
       {
         id: 'interview',
         label: 'Interview at Calder Café',
-        description: 'Spend 3 hours getting ready, traveling, and interviewing for a steady front-of-house job.',
+        description: 'Spend 2 hours getting ready, traveling, and interviewing for a steady front-of-house job.',
         nextSceneId: 'prep',
         conditions: [
-          { type: 'minTime', amount: 3 },
+          { type: 'minTime', amount: 2 },
           { type: 'history', id: 'job_search_started' },
           { type: 'notHistory', id: 'got_cafe_job' },
         ],
         effects: [
-          { type: 'time', amount: -3 },
+          { type: 'time', amount: -2 },
           { type: 'history', id: 'got_cafe_job', note: 'Hired for part-time front-of-house work at Calder Café.' },
         ],
       },
@@ -134,11 +134,11 @@ Nia also mentions a Juniper House opening this weekend. It is not especially gla
       {
         id: 'ava-again',
         label: 'Help Ava finish her presentation',
-        description: 'Spend 3 hours helping Ava. If it goes well, she can put your name on the Juniper House guest list.',
+        description: 'Spend 2 hours helping Ava. If it goes well, she can put your name on the Juniper House guest list.',
         nextSceneId: 'prep',
-        conditions: [{ type: 'minTime', amount: 3 }, { type: 'notHistory', id: 'helped_ava' }],
+        conditions: [{ type: 'minTime', amount: 2 }, { type: 'notHistory', id: 'helped_ava' }],
         effects: [
-          { type: 'time', amount: -3 },
+          { type: 'time', amount: -2 },
           { type: 'relationship', characterId: 'ava', metric: 'socialValue', amount: 20 },
           { type: 'relationship', characterId: 'ava', metric: 'trust', amount: 5 },
           { type: 'relationshipTag', characterId: 'ava', tag: 'owes_favor' },
@@ -159,11 +159,11 @@ Nia also mentions a Juniper House opening this weekend. It is not especially gla
       {
         id: 'wardrobe',
         label: 'Buy something nicer to wear',
-        description: 'Spend $45 and 2 hours. It may help you feel less out of place at Juniper House, but it slows your apartment savings.',
+        description: 'Spend $45 and 1 hour. It may help you feel less out of place at Juniper House, but it slows your apartment savings.',
         nextSceneId: 'prep',
-        conditions: [{ type: 'minCash', amount: 45 }, { type: 'minTime', amount: 2 }, { type: 'notHistory', id: 'bought_look' }],
+        conditions: [{ type: 'minCash', amount: 45 }, { type: 'minTime', amount: 1 }, { type: 'notHistory', id: 'bought_look' }],
         effects: [
-          { type: 'time', amount: -2 },
+          { type: 'time', amount: -1 },
           { type: 'cash', amount: -45 },
           { type: 'lifestyle', amount: 1 },
           { type: 'reputation', amount: 1 },
@@ -175,8 +175,9 @@ Nia also mentions a Juniper House opening this weekend. It is not especially gla
         label: 'Go to Juniper House as Nia’s plus-one',
         description: 'Nia’s friend has a spare invitation. You will arrive as someone’s guest, not as a VIP.',
         nextSceneId: 'event_arrival',
-        conditions: [{ type: 'history', id: 'met_nia' }],
+        conditions: [{ type: 'minTime', amount: 3 }, { type: 'history', id: 'met_nia' }],
         effects: [
+          { type: 'time', amount: -3 },
           { type: 'accessRoute', route: 'friend' },
           { type: 'relationshipTag', characterId: 'nia', tag: 'helped_with_access' },
           { type: 'history', id: 'access_friend' },
@@ -187,8 +188,9 @@ Nia also mentions a Juniper House opening this weekend. It is not especially gla
         label: 'Ask Ava to put you on the guest list',
         description: 'Ava can get you in because you helped her. You will owe some of that access to the favor.',
         nextSceneId: 'event_arrival',
-        conditions: [{ type: 'relationshipMin', characterId: 'ava', metric: 'socialValue', amount: 55 }],
+        conditions: [{ type: 'minTime', amount: 3 }, { type: 'relationshipMin', characterId: 'ava', metric: 'socialValue', amount: 55 }],
         effects: [
+          { type: 'time', amount: -3 },
           { type: 'accessRoute', route: 'favor' },
           { type: 'relationshipTag', characterId: 'ava', tag: 'favor_collected' },
           { type: 'history', id: 'access_favor' },
@@ -197,16 +199,16 @@ Nia also mentions a Juniper House opening this weekend. It is not especially gla
       {
         id: 'cafe-first-shift',
         label: 'Work your first Calder Café shift',
-        description: 'Spend 2 hours learning the job and earn $45. It is just a normal shift, not a social event.',
+        description: 'Work a 4-hour training shift and earn $80. It is just a normal shift, not a social event.',
         nextSceneId: 'prep',
         conditions: [
-          { type: 'minTime', amount: 2 },
+          { type: 'minTime', amount: 4 },
           { type: 'history', id: 'got_cafe_job' },
           { type: 'notHistory', id: 'worked_cafe_once' },
         ],
         effects: [
-          { type: 'time', amount: -2 },
-          { type: 'cash', amount: 45 },
+          { type: 'time', amount: -4 },
+          { type: 'cash', amount: 80 },
           { type: 'history', id: 'worked_cafe_once', note: 'Completed a first ordinary shift at Calder Café.' },
           { type: 'history', id: 'cafe_experience', note: 'Built real front-of-house experience at Calder Café.' },
         ],
@@ -214,11 +216,12 @@ Nia also mentions a Juniper House opening this weekend. It is not especially gla
       {
         id: 'work-route',
         label: 'Take a Calder Café catering shift at Juniper House',
-        description: 'After your first regular shift, the café offers you event work. Take it if you want the money and a staff-side way into Juniper House.',
+        description: 'After your first regular shift, the café offers you event work. It is a 5-hour event shift. Take it if you want the money and a staff-side way into Juniper House.',
         nextSceneId: 'event_arrival',
-        conditions: [{ type: 'history', id: 'worked_cafe_once' }],
+        conditions: [{ type: 'minTime', amount: 5 }, { type: 'history', id: 'worked_cafe_once' }],
         effects: [
-          { type: 'cash', amount: 65 },
+          { type: 'time', amount: -5 },
+          { type: 'cash', amount: 100 },
           { type: 'accessRoute', route: 'work' },
           { type: 'history', id: 'access_work' },
         ],
@@ -230,7 +233,7 @@ Nia also mentions a Juniper House opening this weekend. It is not especially gla
         nextSceneId: 'week2_start',
         effects: [
           { type: 'history', id: 'skipped_juniper', note: 'Chose not to attend Juniper House this week.' },
-          { type: 'newWeek', time: 10 },
+          { type: 'newWeek', time: 18 },
         ],
       },
     ],
@@ -411,7 +414,7 @@ Your ordinary problems are not solved. Work, money, housing, and the people in y
             item: { id: 'missing_cuff_resolved', kind: 'fact', claim: 'The missing diamond cuff was found under event materials. The accusation against Mara was false.', confidence: 'high', public: true },
           },
           { type: 'history', id: 'entered_better_social_circle' },
-          { type: 'newWeek', time: 10 },
+          { type: 'newWeek', time: 18 },
         ],
       },
     ],
@@ -421,7 +424,7 @@ Your ordinary problems are not solved. Work, money, housing, and the people in y
     id: 'week2_start',
     eyebrow: 'The next week',
     title: 'The problems you skipped are still here',
-    body: `You wake up on Nia's couch with ten free hours and whatever progress you actually made last week.
+    body: `You wake up on Nia's couch with eighteen usable hours and whatever progress you actually made last week.
 
 Work, money, housing, dating, friendship, and social opportunities all carry forward. Nothing disappears just because you ignored it once.`,
     choices: [
@@ -491,46 +494,46 @@ There is also a benefit at the Bellweather Hotel this weekend. It is a step abov
       {
         id: 'week2-job-search',
         label: 'Apply for jobs',
-        description: 'Spend 3 hours getting applications out. Unemployment remains a problem until you deal with it.',
+        description: 'Spend 1 hour getting applications out. Unemployment remains a problem until you deal with it.',
         nextSceneId: 'week2_hub',
         conditions: [
-          { type: 'minTime', amount: 3 },
+          { type: 'minTime', amount: 1 },
           { type: 'notHistory', id: 'job_search_started' },
           { type: 'notHistory', id: 'got_cafe_job' },
         ],
         effects: [
-          { type: 'time', amount: -3 },
+          { type: 'time', amount: -1 },
           { type: 'history', id: 'job_search_started', note: 'Spent time applying for entry-level local jobs.' },
         ],
       },
       {
         id: 'week2-interview-cafe',
         label: 'Interview at Calder Café',
-        description: 'Spend 3 hours following up on your applications with a real interview for steady front-of-house work.',
+        description: 'Spend 2 hours following up on your applications with a real interview for steady front-of-house work.',
         nextSceneId: 'week2_hub',
         conditions: [
-          { type: 'minTime', amount: 3 },
+          { type: 'minTime', amount: 2 },
           { type: 'history', id: 'job_search_started' },
           { type: 'notHistory', id: 'got_cafe_job' },
         ],
         effects: [
-          { type: 'time', amount: -3 },
+          { type: 'time', amount: -2 },
           { type: 'history', id: 'got_cafe_job', note: 'Hired for part-time front-of-house work at Calder Café.' },
         ],
       },
       {
         id: 'week2-work-cafe',
         label: 'Work a Calder Café shift',
-        description: 'Spend 3 hours working and add $75 to the move-out fund.',
+        description: 'Work a 4-hour Calder Café shift and add $80 to the move-out fund.',
         nextSceneId: 'week2_hub',
         conditions: [
-          { type: 'minTime', amount: 3 },
+          { type: 'minTime', amount: 4 },
           { type: 'history', id: 'got_cafe_job' },
           { type: 'notHistory', id: 'worked_cafe_week2' },
         ],
         effects: [
-          { type: 'time', amount: -3 },
-          { type: 'cash', amount: 75 },
+          { type: 'time', amount: -4 },
+          { type: 'cash', amount: 80 },
           { type: 'history', id: 'worked_cafe_week2' },
           { type: 'history', id: 'cafe_experience', note: 'Built real front-of-house experience at Calder Café.' },
         ],
@@ -538,12 +541,13 @@ There is also a benefit at the Bellweather Hotel this weekend. It is a step abov
       {
         id: 'week2-better-job',
         label: 'Interview for guest services at Bellweather Hotel',
-        description: 'Spend 3 hours chasing a better-paying job. Your actual café experience gets you the interview, but the schedule would be busier.',
+        description: 'Spend 2 hours chasing a better-paying job. Your actual café experience gets you the interview, but the schedule would be busier.',
         nextSceneId: 'week2_hub',
         conditions: [
           { type: 'minTime', amount: 3 },
           { type: 'history', id: 'got_cafe_job' },
           { type: 'history', id: 'cafe_experience' },
+          { type: 'minTime', amount: 2 },
           { type: 'notHistory', id: 'got_hotel_job' },
         ],
         effects: [
@@ -554,9 +558,9 @@ There is also a benefit at the Bellweather Hotel this weekend. It is a step abov
       {
         id: 'week2-apartment',
         label: 'Research apartments with Nia',
-        description: 'Spend 2 hours turning "move out someday" into a real number. If you are unemployed, this is research, not a realistic move yet.',
+        description: 'Spend 1 hour turning "move out someday" into a real number. If you are unemployed, this is research, not a realistic move yet.',
         nextSceneId: 'week2_hub',
-        conditions: [{ type: 'minTime', amount: 2 }, { type: 'notHistory', id: 'apartment_target_known' }],
+        conditions: [{ type: 'minTime', amount: 1 }, { type: 'notHistory', id: 'apartment_target_known' }],
         effects: [
           { type: 'time', amount: -2 },
           { type: 'history', id: 'apartment_target_known', note: 'Set a first move-out fund target of $600.' },
@@ -613,8 +617,9 @@ There is also a benefit at the Bellweather Hotel this weekend. It is a step abov
         label: 'Take Ava’s invitation to the Bellweather benefit',
         description: 'Ava remembers the help you gave her and is willing to use one of her connections to bring you into a more established room.',
         nextSceneId: 'event2_arrival',
-        conditions: [{ type: 'relationshipMin', characterId: 'ava', metric: 'socialValue', amount: 55 }],
+        conditions: [{ type: 'minTime', amount: 3 }, { type: 'relationshipMin', characterId: 'ava', metric: 'socialValue', amount: 55 }],
         effects: [
+          { type: 'time', amount: -3 },
           { type: 'accessRoute', route: 'favor' },
           { type: 'history', id: 'bellweather_access_ava' },
         ],
@@ -624,8 +629,9 @@ There is also a benefit at the Bellweather Hotel this weekend. It is a step abov
         label: 'Accept Mara’s invitation to the Bellweather benefit',
         description: 'Because you asked before repeating the cuff rumor, Mara is willing to put your name down as her guest.',
         nextSceneId: 'event2_arrival',
-        conditions: [{ type: 'history', id: 'chose_mara' }, { type: 'history', id: 'rumor_questioned' }],
+        conditions: [{ type: 'minTime', amount: 3 }, { type: 'history', id: 'chose_mara' }, { type: 'history', id: 'rumor_questioned' }],
         effects: [
+          { type: 'time', amount: -3 },
           { type: 'accessRoute', route: 'friend' },
           { type: 'history', id: 'bellweather_access_mara' },
         ],
@@ -635,8 +641,9 @@ There is also a benefit at the Bellweather Hotel this weekend. It is a step abov
         label: 'Accept Celeste’s Bellweather introduction',
         description: 'You made a good impression at Juniper House, and Celeste is willing to put your name in front of the benefit organizer.',
         nextSceneId: 'event2_arrival',
-        conditions: [{ type: 'history', id: 'chose_celeste' }],
+        conditions: [{ type: 'minTime', amount: 3 }, { type: 'history', id: 'chose_celeste' }],
         effects: [
+          { type: 'time', amount: -3 },
           { type: 'accessRoute', route: 'favor' },
           { type: 'history', id: 'bellweather_access_celeste' },
         ],
@@ -646,8 +653,9 @@ There is also a benefit at the Bellweather Hotel this weekend. It is a step abov
         label: 'Use Nia’s extra invitation',
         description: 'After you contribute at home, Nia offers the spare invitation she was going to give someone else.',
         nextSceneId: 'event2_arrival',
-        conditions: [{ type: 'history', id: 'contributed_to_nia' }],
+        conditions: [{ type: 'minTime', amount: 3 }, { type: 'history', id: 'contributed_to_nia' }],
         effects: [
+          { type: 'time', amount: -3 },
           { type: 'accessRoute', route: 'friend' },
           { type: 'history', id: 'bellweather_access_nia' },
         ],
@@ -655,27 +663,28 @@ There is also a benefit at the Bellweather Hotel this weekend. It is a step abov
       {
         id: 'week2-hotel-shift',
         label: 'Work a normal Bellweather Hotel shift',
-        description: 'Spend 3 hours learning the hotel job before trying to turn it into social access. Earn $90.',
+        description: 'Work a 4-hour guest-services shift before trying to turn it into social access. Earn $100.',
         nextSceneId: 'week2_hub',
         conditions: [
-          { type: 'minTime', amount: 3 },
+          { type: 'minTime', amount: 4 },
           { type: 'history', id: 'got_hotel_job' },
           { type: 'notHistory', id: 'worked_hotel_once' },
         ],
         effects: [
-          { type: 'time', amount: -3 },
-          { type: 'cash', amount: 90 },
+          { type: 'time', amount: -4 },
+          { type: 'cash', amount: 100 },
           { type: 'history', id: 'worked_hotel_once', note: 'Completed a normal guest-services shift at Bellweather Hotel.' },
         ],
       },
       {
         id: 'week2-work-route',
         label: 'Work the Bellweather benefit',
-        description: 'After a normal hotel shift, event staffing becomes available. You earn $95, but you are working while everyone else socializes.',
+        description: 'After a normal hotel shift, event staffing becomes available. You earn $125, but you are working while everyone else socializes.',
         nextSceneId: 'event2_arrival',
         conditions: [{ type: 'history', id: 'worked_hotel_once' }],
         effects: [
-          { type: 'cash', amount: 95 },
+          { type: 'time', amount: -5 },
+          { type: 'cash', amount: 125 },
           { type: 'accessRoute', route: 'work' },
           { type: 'history', id: 'bellweather_access_work' },
         ],
