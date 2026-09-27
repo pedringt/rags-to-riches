@@ -98,7 +98,7 @@ Nia also mentions a Juniper House opening this weekend. It is not especially gla
         nextSceneId: 'prep',
         conditions: [{ type: 'minTime', amount: 1 }, { type: 'notHistory', id: 'job_search_started' }],
         effects: [
-          { type: 'time', amount: -3 },
+          { type: 'time', amount: -1 },
           { type: 'history', id: 'job_search_started' },
         ],
       },
@@ -544,14 +544,13 @@ There is also a benefit at the Bellweather Hotel this weekend. It is a step abov
         description: 'Spend 2 hours chasing a better-paying job. Your actual café experience gets you the interview, but the schedule would be busier.',
         nextSceneId: 'week2_hub',
         conditions: [
-          { type: 'minTime', amount: 3 },
+          { type: 'minTime', amount: 2 },
           { type: 'history', id: 'got_cafe_job' },
           { type: 'history', id: 'cafe_experience' },
-          { type: 'minTime', amount: 2 },
           { type: 'notHistory', id: 'got_hotel_job' },
         ],
         effects: [
-          { type: 'time', amount: -3 },
+          { type: 'time', amount: -2 },
           { type: 'history', id: 'got_hotel_job', note: 'Hired for guest-services shifts at the Bellweather Hotel.' },
         ],
       },
@@ -562,7 +561,7 @@ There is also a benefit at the Bellweather Hotel this weekend. It is a step abov
         nextSceneId: 'week2_hub',
         conditions: [{ type: 'minTime', amount: 1 }, { type: 'notHistory', id: 'apartment_target_known' }],
         effects: [
-          { type: 'time', amount: -2 },
+          { type: 'time', amount: -1 },
           { type: 'history', id: 'apartment_target_known', note: 'Set a first move-out fund target of $600.' },
         ],
       },
@@ -681,7 +680,7 @@ There is also a benefit at the Bellweather Hotel this weekend. It is a step abov
         label: 'Work the Bellweather benefit',
         description: 'After a normal hotel shift, event staffing becomes available. You earn $125, but you are working while everyone else socializes.',
         nextSceneId: 'event2_arrival',
-        conditions: [{ type: 'history', id: 'worked_hotel_once' }],
+        conditions: [{ type: 'minTime', amount: 5 }, { type: 'history', id: 'worked_hotel_once' }],
         effects: [
           { type: 'time', amount: -5 },
           { type: 'cash', amount: 125 },
