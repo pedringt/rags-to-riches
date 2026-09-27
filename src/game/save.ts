@@ -1,6 +1,6 @@
 import type { GameState } from './types';
 
-export const SAVE_KEY = 'main-character-vertical-slice-v1';
+export const SAVE_KEY = 'main-character-vertical-slice-v2';
 
 export const saveGame = (state: GameState) => {
   localStorage.setItem(SAVE_KEY, JSON.stringify(state));
@@ -11,7 +11,7 @@ export const loadGame = (): GameState | null => {
   if (!raw) return null;
   try {
     const parsed = JSON.parse(raw) as GameState;
-    return parsed?.saveVersion === 1 ? parsed : null;
+    return parsed?.saveVersion === 2 ? parsed : null;
   } catch {
     return null;
   }
