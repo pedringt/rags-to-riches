@@ -13,11 +13,19 @@ export default function GameHud({ state }: Props) {
         ? 'Job hunting'
         : 'Unemployed';
 
-  const social = state.accessRoute
-    ? 'Invitation secured'
-    : has(state, 'met_nia') || has(state, 'helped_ava')
-      ? 'Building connections'
-      : 'Starting out';
+  const social = has(state, 'completed_week2')
+    ? (has(state, 'skipped_bellweather') ? 'Prioritized other goals' : 'Bellweather reached')
+    : has(state, 'bellweather_access_work') || has(state, 'bellweather_access_ava') || has(state, 'bellweather_access_mara') || has(state, 'bellweather_access_nia') || has(state, 'bellweather_access_celeste')
+      ? 'Bellweather secured'
+      : has(state, 'entered_better_social_circle')
+        ? 'Juniper reached'
+        : has(state, 'skipped_juniper')
+          ? 'Skipped Juniper'
+          : state.accessRoute
+            ? 'Invitation secured'
+            : has(state, 'met_nia') || has(state, 'helped_ava')
+              ? 'Building connections'
+              : 'Starting out';
 
   return (
     <div className="grid grid-cols-2 gap-2 sm:grid-cols-5">
