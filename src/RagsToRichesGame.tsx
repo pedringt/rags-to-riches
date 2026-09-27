@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useReducer, useState } from 'react';
+import EndingSummary from './components/EndingSummary';
 import GameHud from './components/GameHud';
 import RelationshipStrip from './components/RelationshipStrip';
 import ScenePanel from './components/ScenePanel';
@@ -118,6 +119,8 @@ export default function RagsToRichesGame() {
         </div>
 
         <div className="mt-5"><RelationshipStrip state={state} /></div>
+
+        {state.phase === 'ending' && <EndingSummary state={state} />}
 
         {state.phase === 'ending' && (
           <div className="mt-6 flex flex-wrap gap-3">
