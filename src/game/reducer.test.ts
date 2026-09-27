@@ -16,8 +16,14 @@ describe('gameReducer', () => {
     });
 
     expect(next.timeRemaining).toBe(4);
-    expect(next.cash).toBe(260);
+    expect(next.cash).toBe(200);
     expect(next.history.some((event) => event.id === 'worked_extra_shift')).toBe(true);
+  });
+
+  it('starts with the player living at Nia’s place', () => {
+    const state = createInitialGameState();
+    expect(state.history.some((event) => event.id === 'living_with_nia')).toBe(true);
+    expect(state.relationships.nia.tags).toContain('roommate');
   });
 
   it('changes relationship values without exceeding bounds', () => {
