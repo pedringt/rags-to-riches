@@ -4,41 +4,43 @@ export const scenes: Record<string, Scene> = {
   morning: {
     id: 'morning',
     eyebrow: 'Day 1 · Morning',
-    title: 'A door you cannot open yet',
-    body: `Your apartment is small, your bank balance is ordinary, and tonight Halcyon House is hosting the Meridian Benefit — the kind of event where people become connections just by being seen together.
+    title: 'Nia’s couch, for now',
+    body: `Your suitcase is still half-unpacked beside Nia's couch. She told you not to rush, but you have been here long enough to know you want a place of your own.
 
-You do not have an invitation. You do have eight hours, $180, a job that could use you, an old friend who knows everybody by accident, and an acquaintance who only calls when she needs something.`,
+A rerun of Main Character plays quietly while you get ready for work. You have wanted that life for years. Right now, though, you have $120, eight free hours before tonight, and a much smaller goal: save for a deposit and start meeting people outside your usual circle.
+
+Ava, an events consultant you know through work, mentioned a small opening tonight at Juniper House. It is not a TV event. It is just the kind of place where people with better invitations meet each other.`,
     choices: [
       {
         id: 'work',
-        label: 'Take the extra shift',
-        description: 'Lose four hours, earn $80, and make yourself useful at work.',
+        label: 'Take an extra shift',
+        description: 'Spend 4 hours working and earn $80 toward your own place.',
         nextSceneId: 'prep',
         conditions: [{ type: 'minTime', amount: 4 }, { type: 'notHistory', id: 'worked_extra_shift' }],
         effects: [
           { type: 'time', amount: -4 },
           { type: 'cash', amount: 80 },
-          { type: 'history', id: 'worked_extra_shift' },
+          { type: 'history', id: 'worked_extra_shift', note: 'Worked an extra shift instead of using the afternoon socially.' },
         ],
       },
       {
         id: 'nia',
-        label: 'Meet Nia for coffee',
-        description: 'Spend three hours on someone who knew you before status mattered.',
+        label: 'Get lunch with Nia',
+        description: 'Spend 2 hours and $12 catching up with the friend letting you stay with her.',
         nextSceneId: 'prep',
-        conditions: [{ type: 'minTime', amount: 3 }, { type: 'notHistory', id: 'met_nia' }],
+        conditions: [{ type: 'minTime', amount: 2 }, { type: 'notHistory', id: 'met_nia' }],
         effects: [
-          { type: 'time', amount: -3 },
+          { type: 'time', amount: -2 },
           { type: 'cash', amount: -12 },
-          { type: 'relationship', characterId: 'nia', metric: 'affection', amount: 10 },
+          { type: 'relationship', characterId: 'nia', metric: 'affection', amount: 8 },
           { type: 'relationship', characterId: 'nia', metric: 'trust', amount: 5 },
           { type: 'history', id: 'met_nia' },
         ],
       },
       {
         id: 'ava',
-        label: 'Rescue Ava’s launch deck',
-        description: 'Spend three hours fixing a last-minute mess for a connected acquaintance.',
+        label: 'Help Ava finish a client presentation',
+        description: 'Spend 3 hours helping Ava fix a last-minute work problem. She may owe you one.',
         nextSceneId: 'prep',
         conditions: [{ type: 'minTime', amount: 3 }, { type: 'notHistory', id: 'helped_ava' }],
         effects: [
@@ -51,13 +53,13 @@ You do not have an invitation. You do have eight hours, $180, a job that could u
       },
       {
         id: 'wardrobe',
-        label: 'Buy one thing that changes the room',
-        description: 'Spend $90 on a sharp, event-ready look. It cannot get you invited by itself.',
+        label: 'Find something better to wear',
+        description: 'Spend $45 and 2 hours on an outfit that will help you fit in if you get invited.',
         nextSceneId: 'prep',
-        conditions: [{ type: 'minCash', amount: 90 }, { type: 'minTime', amount: 2 }, { type: 'notHistory', id: 'bought_look' }],
+        conditions: [{ type: 'minCash', amount: 45 }, { type: 'minTime', amount: 2 }, { type: 'notHistory', id: 'bought_look' }],
         effects: [
           { type: 'time', amount: -2 },
-          { type: 'cash', amount: -90 },
+          { type: 'cash', amount: -45 },
           { type: 'lifestyle', amount: 1 },
           { type: 'reputation', amount: 1 },
           { type: 'history', id: 'bought_look' },
@@ -68,13 +70,15 @@ You do not have an invitation. You do have eight hours, $180, a job that could u
   prep: {
     id: 'prep',
     eyebrow: 'Day 1 · Afternoon',
-    title: 'Decide what tonight is worth',
-    body: `The Benefit gets closer. You can keep preparing, or cash in whichever connection you have earned. There is no time to do everything.`,
+    title: 'Can you get into Juniper House tonight?',
+    body: `The opening starts tonight. You still need an invitation or a reason to be there.
+
+You can spend more of the afternoon preparing, or use a connection you have already built. Whatever you spend now is money and time you are not putting toward your own apartment.`,
     choices: [
       {
         id: 'work-again',
-        label: 'Take the extra shift',
-        description: 'Earn $80 and a work-earned route into the event.',
+        label: 'Take an extra shift',
+        description: 'Spend 4 hours working and earn $80. Your manager may also need help at tonight’s opening.',
         nextSceneId: 'prep',
         conditions: [{ type: 'minTime', amount: 4 }, { type: 'notHistory', id: 'worked_extra_shift' }],
         effects: [
@@ -85,22 +89,22 @@ You do not have an invitation. You do have eight hours, $180, a job that could u
       },
       {
         id: 'nia-again',
-        label: 'Meet Nia for coffee',
-        description: 'Strengthen a relationship that is not transactional.',
+        label: 'Get lunch with Nia',
+        description: 'Spend 2 hours and $12 together. She knows someone helping with the opening.',
         nextSceneId: 'prep',
-        conditions: [{ type: 'minTime', amount: 3 }, { type: 'notHistory', id: 'met_nia' }],
+        conditions: [{ type: 'minTime', amount: 2 }, { type: 'notHistory', id: 'met_nia' }],
         effects: [
-          { type: 'time', amount: -3 },
+          { type: 'time', amount: -2 },
           { type: 'cash', amount: -12 },
-          { type: 'relationship', characterId: 'nia', metric: 'affection', amount: 10 },
+          { type: 'relationship', characterId: 'nia', metric: 'affection', amount: 8 },
           { type: 'relationship', characterId: 'nia', metric: 'trust', amount: 5 },
           { type: 'history', id: 'met_nia' },
         ],
       },
       {
         id: 'ava-again',
-        label: 'Rescue Ava’s launch deck',
-        description: 'Become useful to someone with a list.',
+        label: 'Help Ava finish her presentation',
+        description: 'Spend 3 hours helping Ava. If it goes well, she can put your name on tonight’s guest list.',
         nextSceneId: 'prep',
         conditions: [{ type: 'minTime', amount: 3 }, { type: 'notHistory', id: 'helped_ava' }],
         effects: [
@@ -113,13 +117,13 @@ You do not have an invitation. You do have eight hours, $180, a job that could u
       },
       {
         id: 'wardrobe-again',
-        label: 'Upgrade your look',
-        description: 'Spend $90 and two hours. Helpful once you are inside, useless as an invitation.',
+        label: 'Shop for a better outfit',
+        description: 'Spend $45 and 2 hours. It will help once you are inside, but it will not get you through the door.',
         nextSceneId: 'prep',
-        conditions: [{ type: 'minCash', amount: 90 }, { type: 'minTime', amount: 2 }, { type: 'notHistory', id: 'bought_look' }],
+        conditions: [{ type: 'minCash', amount: 45 }, { type: 'minTime', amount: 2 }, { type: 'notHistory', id: 'bought_look' }],
         effects: [
           { type: 'time', amount: -2 },
-          { type: 'cash', amount: -90 },
+          { type: 'cash', amount: -45 },
           { type: 'lifestyle', amount: 1 },
           { type: 'reputation', amount: 1 },
           { type: 'history', id: 'bought_look' },
@@ -127,20 +131,20 @@ You do not have an invitation. You do have eight hours, $180, a job that could u
       },
       {
         id: 'friend-route',
-        label: 'Ask Nia for the introduction',
-        description: 'She knows a volunteer coordinator and can get you in without pretending you belong there.',
+        label: 'Go as Nia’s plus-one',
+        description: 'Nia’s friend has a spare invitation. You will arrive as someone’s guest, not as a VIP.',
         nextSceneId: 'event_arrival',
-        conditions: [{ type: 'relationshipMin', characterId: 'nia', metric: 'affection', amount: 55 }],
+        conditions: [{ type: 'history', id: 'met_nia' }],
         effects: [
           { type: 'accessRoute', route: 'friend' },
-          { type: 'relationshipTag', characterId: 'nia', tag: 'called_in_favor' },
+          { type: 'relationshipTag', characterId: 'nia', tag: 'helped_with_access' },
           { type: 'history', id: 'access_friend' },
         ],
       },
       {
         id: 'favor-route',
-        label: 'Call in Ava’s favor',
-        description: 'Ava can put your name on the list. You both know why she is doing it.',
+        label: 'Ask Ava to put you on the guest list',
+        description: 'Ava can get you in because you helped her today. You will owe some of that access to the favor.',
         nextSceneId: 'event_arrival',
         conditions: [{ type: 'relationshipMin', characterId: 'ava', metric: 'socialValue', amount: 55 }],
         effects: [
@@ -151,8 +155,8 @@ You do not have an invitation. You do have eight hours, $180, a job that could u
       },
       {
         id: 'work-route',
-        label: 'Take the staff invitation',
-        description: 'Your extra shift put you in the right place when a sponsor needed one more reliable person.',
+        label: 'Work the opening',
+        description: 'Your manager needs an extra pair of hands. You will get inside, but you will be there as staff.',
         nextSceneId: 'event_arrival',
         conditions: [{ type: 'history', id: 'worked_extra_shift' }],
         effects: [
@@ -164,28 +168,30 @@ You do not have an invitation. You do have eight hours, $180, a job that could u
   },
   event_arrival: {
     id: 'event_arrival',
-    eyebrow: 'The Meridian Benefit',
-    title: 'Inside',
-    body: `Halcyon House is all glass, stone, and people acting as though they have never checked a price. Somewhere upstairs, a field producer from Main Character is talking to two women everyone else keeps glancing toward.`,
+    eyebrow: 'Juniper House Opening',
+    title: 'A nicer room than you are used to',
+    body: `Juniper House is packed with local business owners, stylists, restaurateurs, people with family money, and people who are very good at looking like they have family money.
+
+This is not Main Character. No one is filming. But you recognize one woman from a photo Nia once showed you: Mara Solis, who has been seen at parties with the cast. For the first time, the world you watch on TV feels only a few rooms away instead of completely imaginary.`,
     variants: [
       {
         conditions: [{ type: 'history', id: 'access_friend' }],
-        body: `Nia walks you through the side entrance and introduces you by your first name, not your résumé. You arrive attached to a real person, which makes you harder to dismiss.`,
+        body: `Nia introduces you around casually. You are here because somebody actually wanted you with them, which makes the room easier to enter.`,
       },
       {
         conditions: [{ type: 'history', id: 'access_favor' }],
-        body: `Your name is exactly where Ava promised it would be. The check-in host smiles a little too knowingly. You are inside because someone decided you were useful.`,
+        body: `Your name is on Ava’s list. The host does not know you, but Ava does, and tonight that is enough.`,
       },
       {
         conditions: [{ type: 'history', id: 'access_work' }],
-        body: `You enter with a sponsor credential and a job to do. It is not glamorous, but people speak freely around someone they think is working.`,
+        body: `You spend the first hour carrying trays and solving small problems. People barely notice staff, which means they also forget to lower their voices around you.`,
       },
     ],
     choices: [
       {
         id: 'talk-mara',
-        label: 'Talk to Mara Solis',
-        description: 'She is polished, self-possessed, and being watched by production.',
+        label: 'Introduce yourself to Mara',
+        description: 'She is connected to people you would like to know, but you have no reason to pretend you are already part of her world.',
         nextSceneId: 'event_rumor',
         effects: [
           { type: 'relationship', characterId: 'mara', metric: 'affection', amount: 8 },
@@ -195,8 +201,8 @@ You do not have an invitation. You do have eight hours, $180, a job that could u
       },
       {
         id: 'talk-celeste',
-        label: 'Stay near Celeste Arden',
-        description: 'She seems unimpressed by the cameras, which makes everyone else more interested in her.',
+        label: 'Join Celeste’s conversation',
+        description: 'She runs a local foundation and seems to know everyone worth knowing.',
         nextSceneId: 'event_rumor',
         effects: [
           { type: 'reputation', amount: 2 },
@@ -204,29 +210,29 @@ You do not have an invitation. You do have eight hours, $180, a job that could u
         ],
       },
       {
-        id: 'observe-production',
-        label: 'Watch the producer instead',
-        description: 'Tamsin Reed notices who creates a scene and who understands one.',
+        id: 'observe-room',
+        label: 'Listen before you introduce yourself',
+        description: 'Spend a few minutes figuring out who actually matters in the room and who only looks important.',
         nextSceneId: 'event_rumor',
         effects: [
           { type: 'relevance', amount: 1 },
-          { type: 'history', id: 'watched_production' },
+          { type: 'history', id: 'watched_room' },
         ],
       },
     ],
   },
   event_rumor: {
     id: 'event_rumor',
-    eyebrow: 'Later · Halcyon House',
-    title: 'A story arrives before the facts do',
-    body: `Near the powder room, you hear two guests whisper that a diamond cuff from the silent-auction display is missing. One insists she saw Mara leaving the upstairs hall with a velvet case. Another says Mara was downstairs the entire time.
+    eyebrow: 'Later · Juniper House',
+    title: 'A rumor starts moving',
+    body: `Near the coat check, you hear two guests whisper that a diamond cuff from a display table is missing. One insists she saw Mara carrying a velvet case upstairs. Another says Mara never left the main room.
 
-Neither person actually saw the cuff disappear. By the time the champagne is refilled, three people are repeating the accusation as if it were settled.`,
+Neither person saw the cuff disappear. Ten minutes later, people are repeating the story as though someone caught Mara with it in her pocket.`,
     choices: [
       {
         id: 'keep-private',
-        label: 'Keep it to yourself',
-        description: 'Knowing something is not the same as knowing it is true.',
+        label: 'Do not repeat it',
+        description: 'You heard a rumor. You did not see what happened.',
         nextSceneId: 'event_finale',
         effects: [
           {
@@ -238,8 +244,8 @@ Neither person actually saw the cuff disappear. By the time the champagne is ref
       },
       {
         id: 'ask-mara',
-        label: 'Ask Mara privately',
-        description: 'Risk awkwardness in exchange for a better read on the claim.',
+        label: 'Ask Mara what happened',
+        description: 'Talk to her privately before deciding whether you believe the story.',
         nextSceneId: 'event_finale',
         effects: [
           {
@@ -248,7 +254,7 @@ Neither person actually saw the cuff disappear. By the time the champagne is ref
           },
           {
             type: 'knowledge',
-            item: { id: 'mara_denial', kind: 'evidence', claim: 'Mara says she was sent upstairs to retrieve a donor envelope, not the cuff.', confidence: 'medium', public: false },
+            item: { id: 'mara_denial', kind: 'evidence', claim: 'Mara says she went upstairs to retrieve a donor envelope, not the cuff.', confidence: 'medium', public: false },
           },
           { type: 'relationship', characterId: 'mara', metric: 'trust', amount: 8 },
           { type: 'history', id: 'rumor_questioned' },
@@ -256,8 +262,8 @@ Neither person actually saw the cuff disappear. By the time the champagne is ref
       },
       {
         id: 'repeat-rumor',
-        label: 'Repeat it to someone connected',
-        description: 'It may make you interesting. It may also make you the person who spread it.',
+        label: 'Tell someone else what you heard',
+        description: 'The story may make you part of the conversation, but people may remember who helped spread it.',
         nextSceneId: 'event_finale',
         effects: [
           {
@@ -275,33 +281,34 @@ Neither person actually saw the cuff disappear. By the time the champagne is ref
   event_finale: {
     id: 'event_finale',
     eyebrow: 'End of the night',
-    title: 'Someone asks who you are',
-    body: `By midnight, the cuff has been found under a stack of auction materials. That does not stop the story. It only changes who looks foolish for believing it.
+    title: 'You leave with another invitation',
+    body: `The cuff turns up under a stack of event materials. The accusation was wrong, but the people who repeated it do not all look embarrassed.
 
-Across the room, Tamsin Reed — the field producer — asks someone your name. Not because you are famous. Because you were in the middle of a room full of people trying to become memorable, and somehow you registered.`,
+Before you leave, Ava mentions another opening next month and says she can introduce you to the organizer. Nia points out that six months ago you would not have known anyone in this room.
+
+On a television over the bar, a muted Main Character promo starts playing. That dream is still far away. Tonight was not about getting cast. It was about getting one rung closer to the kind of life where that dream might eventually become realistic.`,
     variants: [
       {
         conditions: [{ type: 'history', id: 'rumor_questioned' }],
-        body: `Mara remembers that you asked her before repeating anything. In this room, restraint is unusual enough to be interesting.`,
+        body: `Mara remembers that you asked her directly instead of joining the pile-on. That is not friendship yet, but it is a better beginning than gossip would have given you.`,
       },
       {
         conditions: [{ type: 'history', id: 'rumor_repeated' }],
-        body: `The rumor moved faster after you touched it. Tamsin noticed that too. Being useful to television and being trusted are already beginning to pull in different directions.`,
+        body: `You got pulled into the room faster by repeating the story, but Mara is colder with you now. Getting noticed and getting trusted are already proving to be different things.`,
       },
       {
         conditions: [{ type: 'history', id: 'rumor_kept_private' }],
-        body: `You leave with information you chose not to spend. Nobody applauds restraint, but somebody notices you were listening.`,
+        body: `You leave knowing something about how this crowd works: a story can become social currency long before anyone knows whether it is true.`,
       },
     ],
     choices: [
       {
         id: 'finish',
-        label: 'Go home',
-        description: 'You are not on the show. But now the show knows who you are.',
+        label: 'Head back to Nia’s place',
+        description: 'You still need your own apartment. But now you also have a reason to believe you can keep climbing.',
         nextSceneId: 'ending',
         effects: [
-          { type: 'relevance', amount: 1 },
-          { type: 'history', id: 'show_noticed_player' },
+          { type: 'history', id: 'entered_better_social_circle' },
         ],
       },
     ],
@@ -309,10 +316,12 @@ Across the room, Tamsin Reed — the field producer — asks someone your name. 
   ending: {
     id: 'ending',
     eyebrow: 'Vertical slice complete',
-    title: 'The door is open a crack',
-    body: `You started the day outside the room. You end it with a connection, a reputation beginning to form, and at least one story you now understand differently than everyone repeating it.
+    title: 'One rung up',
+    body: `You are still sleeping at Nia’s place. You are still saving for your own apartment. Nobody from Main Character knows your name.
 
-You are not on Main Character. Not yet.`,
+But you now know people who can get you into places you could not enter yesterday, and one of those people has already mentioned another invitation.
+
+The show is still the long-term goal. For now, your job is to build a life that can actually get you there.`,
     choices: [],
   },
 };
