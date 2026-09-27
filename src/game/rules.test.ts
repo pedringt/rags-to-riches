@@ -141,6 +141,68 @@ describe('vertical slice route rules', () => {
     expect(choiceAvailable({ ...createInitialGameState(), timeRemaining: 0 }, choice('week2_hub', 'skip-bellweather'))).toBe(true);
   });
 
+  it('prices small admin below work shifts and events', () => {
+    const initial = createInitialGameState();
+    const jobSearch = choice('prep', 'job-search-again');
+    const cafeShift = choice('prep', 'cafe-first-shift');
+    const juniper = choice('prep', 'friend-route');
+
+    expect(jobSearch.effects).toContainEqual({ type: 'time', amount: -1 });
+    expect(cafeShift.effects).toContainEqual({ type: 'time', amount: -4 });
+    expect(juniper.effects).toContainEqual({ type: 'time', amount: -3 });
+  });
+
+  it('blocks the Week 3 gallery event after working the fixed Calder Saturday shift', () => {
+    const connected = gameReducer(
+      { ...createInitialGameState(), timeRemaining: 20 },
+      {
+        type: 'applyChoice',
+        nextSceneId: 'week3_hub',
+        effects: [
+          { type: 'history', id: 'got_cafe_job' },
+          { type: 'history', id: 'helped_ava' },
+        ],
+      },
+    );
+    expect(choiceAvailable(connected, choice('week3_hub', 'week3-event-ava'))).toBe(true);
+
+    const worked = gameReducer(connected, {
+      type: 'applyChoice',
+      nextSceneId: 'week3_hub',
+      effects: [
+        { type: 'history', id: 'week3_schedule_resolved' },
+        { type: 'history', id: 'week3_cafe_shift_worked' },
+        { type: 'history', id: 'week3_event_conflict_work' },
+      ],
+    });
+    expect(choiceAvailable(worked, choice('week3_hub', 'week3-event-ava'))).toBe(false);
+  });
+
+  it('gives Bellweather workers a choice of shift while keeping Saturday night open', () => {
+    const state = gameReducer(
+      { ...createInitialGameState(), timeRemaining: 20 },
+      {
+        type: 'applyChoice',
+        nextSceneId: 'week3_hub',
+        effects: [{ type: 'history', id: 'got_hotel_job' }],
+      },
+    );
+
+    expect(choiceAvailable(state, choice('week3_hub', 'week3-hotel-friday'))).toBe(true);
+    expect(choiceAvailable(state, choice('week3_hub', 'week3-hotel-saturday'))).toBe(true);
+
+    const afterShift = gameReducer(state, {
+      type: 'applyChoice',
+      nextSceneId: 'week3_hub',
+      effects: [
+        { type: 'history', id: 'week3_work_shift_done' },
+        { type: 'history', id: 'week3_hotel_flexible_schedule' },
+      ],
+    });
+    expect(choiceAvailable(afterShift, choice('week3_hub', 'week3-hotel-friday'))).toBe(false);
+    expect(choiceAvailable(afterShift, choice('week3_hub', 'week3-hotel-saturday'))).toBe(false);
+  });
+
   it('allows the dud date only while the player can afford its time and cost', () => {
     const state = createInitialGameState();
     expect(choiceAvailable(state, choice('prep', 'date-again'))).toBe(true);
