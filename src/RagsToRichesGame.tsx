@@ -57,7 +57,7 @@ export default function RagsToRichesGame() {
         <header className="mb-5 flex items-center justify-between gap-4">
           <div>
             <div className="text-xs uppercase tracking-[0.24em] text-stone-400">Working title</div>
-            <h1 className="text-2xl font-serif">Main Character</h1>
+            <h1 className="text-2xl font-serif">Rags to Riches</h1>
           </div>
           <button className="text-sm text-stone-500 underline underline-offset-4" onClick={() => setStarted(false)}>Menu</button>
         </header>
@@ -68,8 +68,27 @@ export default function RagsToRichesGame() {
           <ScenePanel scene={scene} state={state} onChoose={choose} />
           <aside className="space-y-5">
             <section className="rounded-2xl border border-stone-200 bg-white p-5">
-              <div className="text-xs uppercase tracking-[0.18em] text-stone-400">Access route</div>
-              <div className="mt-2 text-lg capitalize">{state.accessRoute ?? 'Not secured yet'}</div>
+              <div className="text-xs uppercase tracking-[0.18em] text-stone-400">Right now</div>
+              <div className="mt-3 space-y-3 text-sm leading-6">
+                <div>
+                  <span className="block text-[10px] uppercase tracking-[0.16em] text-stone-400">Work</span>
+                  {state.history.some((event) => event.id === 'got_cafe_job')
+                    ? 'You have a part-time job at Calder Café.'
+                    : state.history.some((event) => event.id === 'job_search_started')
+                      ? 'You have started applying. An interview is the next step.'
+                      : 'You need income. Job hunting is still waiting.'}
+                </div>
+                <div>
+                  <span className="block text-[10px] uppercase tracking-[0.16em] text-stone-400">Housing</span>
+                  You are staying with Nia. Your own place is an early goal, but you need steadier income and savings first.
+                </div>
+                <div>
+                  <span className="block text-[10px] uppercase tracking-[0.16em] text-stone-400">Social</span>
+                  {state.accessRoute
+                    ? 'You found a way into Juniper House.'
+                    : 'You are still building the relationships that get you into better rooms.'}
+                </div>
+              </div>
             </section>
 
             <section className="rounded-2xl border border-stone-200 bg-white p-5">
