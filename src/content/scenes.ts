@@ -208,6 +208,7 @@ Nia also mentions a Juniper House opening this weekend. It is not especially gla
           { type: 'time', amount: -2 },
           { type: 'cash', amount: 45 },
           { type: 'history', id: 'worked_cafe_once', note: 'Completed a first ordinary shift at Calder Café.' },
+          { type: 'history', id: 'cafe_experience', note: 'Built real front-of-house experience at Calder Café.' },
         ],
       },
       {
@@ -220,6 +221,16 @@ Nia also mentions a Juniper House opening this weekend. It is not especially gla
           { type: 'cash', amount: 65 },
           { type: 'accessRoute', route: 'work' },
           { type: 'history', id: 'access_work' },
+        ],
+      },
+      {
+        id: 'skip-juniper',
+        label: 'End the week without going to Juniper House',
+        description: 'Keep whatever progress you made and let the event pass. Work, money, and relationships will still be waiting next week.',
+        nextSceneId: 'week2_start',
+        effects: [
+          { type: 'history', id: 'skipped_juniper', note: 'Chose not to attend Juniper House this week.' },
+          { type: 'newWeek', time: 10 },
         ],
       },
     ],
@@ -265,6 +276,8 @@ For now, this is enough. You are trying to learn how rooms like this work and wh
         nextSceneId: 'event_rumor',
         effects: [
           { type: 'reputation', amount: 2 },
+          { type: 'relationship', characterId: 'celeste', metric: 'affection', amount: 6 },
+          { type: 'relationship', characterId: 'celeste', metric: 'socialValue', amount: 15 },
           { type: 'history', id: 'chose_celeste' },
         ],
       },
@@ -275,6 +288,10 @@ For now, this is enough. You are trying to learn how rooms like this work and wh
         nextSceneId: 'event_rumor',
         effects: [
           { type: 'relevance', amount: 1 },
+          {
+            type: 'knowledge',
+            item: { id: 'juniper_social_map', kind: 'fact', claim: 'At Juniper House, the people drawing attention were not always the people with the most real influence.', confidence: 'medium', public: false },
+          },
           { type: 'history', id: 'watched_room' },
         ],
       },
@@ -350,11 +367,31 @@ Before you leave, Ava mentions another opening next month and says she can intro
 Those problems are not solved. You have just added one useful thing to your life: a slightly better circle of people.`,
     variants: [
       {
+        conditions: [{ type: 'history', id: 'access_friend' }],
+        body: `Nia brought you into the room, so the night also feels like something the two of you did together rather than a random lucky break.`,
+      },
+      {
+        conditions: [{ type: 'history', id: 'access_favor' }],
+        body: `Ava's favor got you through the door. She tells you there will be other rooms like this if you keep proving useful and reliable.`,
+      },
+      {
+        conditions: [{ type: 'history', id: 'access_work' }],
+        body: `You got here by working. That is less glamorous than being invited, but you earned money and learned how much staff notice while guests are busy performing for one another.`,
+      },
+      {
+        conditions: [{ type: 'history', id: 'bought_look' }],
+        body: `The outfit did not buy access, but it did make the night easier: you spent less time worrying about whether you looked out of place and more time paying attention to the room.`,
+      },
+      {
+        conditions: [{ type: 'history', id: 'watched_room' }],
+        body: `Because you watched before jumping in, you leave with a better sense of who has real influence and who is mostly good at attracting attention.`,
+      },
+      {
         conditions: [{ type: 'history', id: 'got_cafe_job' }],
         body: `You also have a job now. It is not glamorous, but steady income changes what you can realistically do next.`,
       },
       {
-        conditions: [{ type: 'history', id: 'rumor_questioned' }],
+        conditions: [{ type: 'history', id: 'chose_mara' }, { type: 'history', id: 'rumor_questioned' }],
         body: `Mara remembers that you asked her directly instead of joining the pile-on. That is not friendship yet, but it is a decent start.`,
       },
       {
@@ -369,6 +406,10 @@ Those problems are not solved. You have just added one useful thing to your life
         description: 'You still need savings and your own apartment. Now you also have another invitation to look forward to.',
         nextSceneId: 'week2_start',
         effects: [
+          {
+            type: 'knowledge',
+            item: { id: 'missing_cuff_resolved', kind: 'fact', claim: 'The missing diamond cuff was found under event materials. The accusation against Mara was false.', confidence: 'high', public: true },
+          },
           { type: 'history', id: 'entered_better_social_circle' },
           { type: 'newWeek', time: 10 },
         ],
@@ -379,84 +420,16 @@ Those problems are not solved. You have just added one useful thing to your life
   week2_start: {
     id: 'week2_start',
     eyebrow: 'The next week',
-    title: 'A little more to work with',
-    body: `You wake up on Nia's couch with the same basic problems, but they feel slightly different now. You know more people. You may have a job. You have proof that saying yes to the right thing can actually change what comes next.
+    title: 'The problems you skipped are still here',
+    body: `You wake up on Nia's couch with ten free hours and whatever progress you actually made last week.
 
-Nia sends you a listing for a tiny studio and says, "Just so you know what you're aiming at." Between the deposit, first month, and basic moving costs, you decide $600 is the first realistic move-out fund.
-
-You have ten free hours this week. Work, savings, dating, Nia, and another better room are all competing for them.`,
+Work, money, housing, dating, friendship, and social opportunities all carry forward. Nothing disappears just because you ignored it once.`,
     choices: [
       {
-        id: 'week2-job-search',
-        label: 'Apply for jobs',
-        description: 'Spend 3 hours getting applications out. You still need a steady first job.',
+        id: 'week2-continue',
+        label: 'Plan the week',
+        description: 'See every current option in one place.',
         nextSceneId: 'week2_hub',
-        conditions: [
-          { type: 'minTime', amount: 3 },
-          { type: 'notHistory', id: 'job_search_started' },
-          { type: 'notHistory', id: 'got_cafe_job' },
-        ],
-        effects: [
-          { type: 'time', amount: -3 },
-          { type: 'history', id: 'job_search_started' },
-        ],
-      },
-      {
-        id: 'week2-look-apartment',
-        label: 'Look at apartments with Nia',
-        description: 'Spend 2 hours seeing what $600 actually gets you into. No purchase yet, just a real target.',
-        nextSceneId: 'week2_hub',
-        conditions: [{ type: 'minTime', amount: 2 }, { type: 'notHistory', id: 'apartment_target_known' }],
-        effects: [
-          { type: 'time', amount: -2 },
-          { type: 'history', id: 'apartment_target_known', note: 'Set a first move-out fund target of $600.' },
-        ],
-      },
-      {
-        id: 'week2-nia',
-        label: 'Buy groceries and cook for Nia',
-        description: 'Spend 2 hours and $25 contributing to the home instead of treating the couch like free lodging.',
-        nextSceneId: 'week2_hub',
-        conditions: [{ type: 'minTime', amount: 2 }, { type: 'minCash', amount: 25 }, { type: 'notHistory', id: 'contributed_to_nia' }],
-        effects: [
-          { type: 'time', amount: -2 },
-          { type: 'cash', amount: -25 },
-          { type: 'relationship', characterId: 'nia', metric: 'affection', amount: 6 },
-          { type: 'relationship', characterId: 'nia', metric: 'trust', amount: 8 },
-          { type: 'history', id: 'contributed_to_nia' },
-        ],
-      },
-      {
-        id: 'week2-first-date',
-        label: 'Try a dating-app date',
-        description: 'Spend 2 hours and $22 meeting someone who seems normal enough to be worth one drink.',
-        nextSceneId: 'week2_date',
-        conditions: [
-          { type: 'minTime', amount: 2 },
-          { type: 'minCash', amount: 22 },
-          { type: 'notHistory', id: 'went_on_dud_date' },
-          { type: 'notHistory', id: 'went_on_week2_date' },
-        ],
-        effects: [
-          { type: 'time', amount: -2 },
-          { type: 'cash', amount: -22 },
-        ],
-      },
-      {
-        id: 'week2-another-date',
-        label: 'Try another date',
-        description: 'Spend 2 hours and $22 giving the apps another shot after last week’s dud.',
-        nextSceneId: 'week2_date',
-        conditions: [
-          { type: 'minTime', amount: 2 },
-          { type: 'minCash', amount: 22 },
-          { type: 'history', id: 'went_on_dud_date' },
-          { type: 'notHistory', id: 'went_on_week2_date' },
-        ],
-        effects: [
-          { type: 'time', amount: -2 },
-          { type: 'cash', amount: -22 },
-        ],
       },
     ],
   },
@@ -465,9 +438,15 @@ You have ten free hours this week. Work, savings, dating, Nia, and another bette
     id: 'week2_date',
     eyebrow: 'Tuesday night',
     title: 'Perfectly fine is not the same as chemistry',
-    body: `This one is not a disaster. He has a real job, asks you questions, and never mentions an ex.
+    body: `He has a real job, asks you questions, and seems perfectly normal.
 
 You spend an hour talking easily and realize you are both waiting for the date to become interesting. It never quite does. When he says you should do this again sometime, both of you sound polite rather than excited.`,
+    variants: [
+      {
+        conditions: [{ type: 'history', id: 'went_on_dud_date' }],
+        body: `Compared with last week's entrepreneur and his mysterious app, this at least feels like an actual date.`,
+      },
+    ],
     choices: [
       {
         id: 'week2-date-end',
@@ -483,10 +462,47 @@ You spend an hour talking easily and realize you are both waiting for the date t
     id: 'week2_hub',
     eyebrow: 'Week two',
     title: 'What moves you forward?',
-    body: `The $600 move-out fund is now a real number instead of a vague someday goal. Every shift helps. Every social plan costs time. Every purchase is also money that is not going toward your own front door.
+    body: `You still have to choose what deserves your limited time. Work can create stability. Housing takes money. Dating and friendships take time. Social opportunities can help, but they are optional.
 
-Ava mentions a benefit at the Bellweather Hotel this weekend. It is a step above Juniper House: established donors, local business owners, gallery people, and the sort of guests whose assistants answer invitations for them.`,
+There is also a benefit at the Bellweather Hotel this weekend. It is a step above Juniper House: established donors, local business owners, gallery people, and the sort of guests whose assistants answer invitations for them.`,
+    variants: [
+      {
+        conditions: [{ type: 'notHistory', id: 'job_search_started' }],
+        body: `You are still unemployed. Job hunting has not gone away just because you skipped it last week.`,
+      },
+      {
+        conditions: [{ type: 'history', id: 'job_search_started' }, { type: 'notHistory', id: 'got_cafe_job' }],
+        body: `You already started applying. The Calder Café interview is still waiting for you.`,
+      },
+      {
+        conditions: [{ type: 'notHistory', id: 'apartment_target_known' }],
+        body: `Moving out is still a vague goal. You can spend time researching what it would actually cost, but without income it is only research.`,
+      },
+      {
+        conditions: [{ type: 'history', id: 'apartment_target_known' }],
+        body: `You now know the first move-out target: $600 for the deposit, first month, and basic moving costs.`,
+      },
+      {
+        conditions: [{ type: 'history', id: 'skipped_juniper' }],
+        body: `You let Juniper House pass last week. That saved the time and kept your other priorities moving, but you missed that particular social opening.`,
+      },
+    ],
     choices: [
+      {
+        id: 'week2-job-search',
+        label: 'Apply for jobs',
+        description: 'Spend 3 hours getting applications out. Unemployment remains a problem until you deal with it.',
+        nextSceneId: 'week2_hub',
+        conditions: [
+          { type: 'minTime', amount: 3 },
+          { type: 'notHistory', id: 'job_search_started' },
+          { type: 'notHistory', id: 'got_cafe_job' },
+        ],
+        effects: [
+          { type: 'time', amount: -3 },
+          { type: 'history', id: 'job_search_started', note: 'Spent time applying for entry-level local jobs.' },
+        ],
+      },
       {
         id: 'week2-interview-cafe',
         label: 'Interview at Calder Café',
@@ -516,16 +532,18 @@ Ava mentions a benefit at the Bellweather Hotel this weekend. It is a step above
           { type: 'time', amount: -3 },
           { type: 'cash', amount: 75 },
           { type: 'history', id: 'worked_cafe_week2' },
+          { type: 'history', id: 'cafe_experience', note: 'Built real front-of-house experience at Calder Café.' },
         ],
       },
       {
         id: 'week2-better-job',
         label: 'Interview for guest services at Bellweather Hotel',
-        description: 'Spend 3 hours chasing a better-paying job. Your café experience gets you the interview, but the schedule would be busier.',
+        description: 'Spend 3 hours chasing a better-paying job. Your actual café experience gets you the interview, but the schedule would be busier.',
         nextSceneId: 'week2_hub',
         conditions: [
           { type: 'minTime', amount: 3 },
           { type: 'history', id: 'got_cafe_job' },
+          { type: 'history', id: 'cafe_experience' },
           { type: 'notHistory', id: 'got_hotel_job' },
         ],
         effects: [
@@ -535,8 +553,8 @@ Ava mentions a benefit at the Bellweather Hotel this weekend. It is a step above
       },
       {
         id: 'week2-apartment',
-        label: 'Look at apartments with Nia',
-        description: 'Spend 2 hours seeing what the $600 move-out target needs to cover.',
+        label: 'Research apartments with Nia',
+        description: 'Spend 2 hours turning "move out someday" into a real number. If you are unemployed, this is research, not a realistic move yet.',
         nextSceneId: 'week2_hub',
         conditions: [{ type: 'minTime', amount: 2 }, { type: 'notHistory', id: 'apartment_target_known' }],
         effects: [
@@ -593,7 +611,7 @@ Ava mentions a benefit at the Bellweather Hotel this weekend. It is a step above
       {
         id: 'week2-ava-route',
         label: 'Take Ava’s invitation to the Bellweather benefit',
-        description: 'Ava trusts you enough to bring you into a more established room.',
+        description: 'Ava remembers the help you gave her and is willing to use one of her connections to bring you into a more established room.',
         nextSceneId: 'event2_arrival',
         conditions: [{ type: 'relationshipMin', characterId: 'ava', metric: 'socialValue', amount: 55 }],
         effects: [
@@ -613,6 +631,17 @@ Ava mentions a benefit at the Bellweather Hotel this weekend. It is a step above
         ],
       },
       {
+        id: 'week2-celeste-route',
+        label: 'Accept Celeste’s Bellweather introduction',
+        description: 'You made a good impression at Juniper House, and Celeste is willing to put your name in front of the benefit organizer.',
+        nextSceneId: 'event2_arrival',
+        conditions: [{ type: 'history', id: 'chose_celeste' }],
+        effects: [
+          { type: 'accessRoute', route: 'favor' },
+          { type: 'history', id: 'bellweather_access_celeste' },
+        ],
+      },
+      {
         id: 'week2-nia-route',
         label: 'Use Nia’s extra invitation',
         description: 'After you contribute at home, Nia offers the spare invitation she was going to give someone else.',
@@ -624,15 +653,41 @@ Ava mentions a benefit at the Bellweather Hotel this weekend. It is a step above
         ],
       },
       {
+        id: 'week2-hotel-shift',
+        label: 'Work a normal Bellweather Hotel shift',
+        description: 'Spend 3 hours learning the hotel job before trying to turn it into social access. Earn $90.',
+        nextSceneId: 'week2_hub',
+        conditions: [
+          { type: 'minTime', amount: 3 },
+          { type: 'history', id: 'got_hotel_job' },
+          { type: 'notHistory', id: 'worked_hotel_once' },
+        ],
+        effects: [
+          { type: 'time', amount: -3 },
+          { type: 'cash', amount: 90 },
+          { type: 'history', id: 'worked_hotel_once', note: 'Completed a normal guest-services shift at Bellweather Hotel.' },
+        ],
+      },
+      {
         id: 'week2-work-route',
         label: 'Work the Bellweather benefit',
-        description: 'Your new guest-services job puts you inside the event as staff. You earn $95, but you are working while everyone else socializes.',
+        description: 'After a normal hotel shift, event staffing becomes available. You earn $95, but you are working while everyone else socializes.',
         nextSceneId: 'event2_arrival',
-        conditions: [{ type: 'history', id: 'got_hotel_job' }],
+        conditions: [{ type: 'history', id: 'worked_hotel_once' }],
         effects: [
           { type: 'cash', amount: 95 },
           { type: 'accessRoute', route: 'work' },
           { type: 'history', id: 'bellweather_access_work' },
+        ],
+      },
+      {
+        id: 'skip-bellweather',
+        label: 'End the week without going to the Bellweather benefit',
+        description: 'Keep the progress you made elsewhere. Missing a social event is a real tradeoff, not a failure state.',
+        nextSceneId: 'ending',
+        effects: [
+          { type: 'history', id: 'skipped_bellweather', note: 'Chose not to attend the Bellweather benefit.' },
+          { type: 'history', id: 'completed_week2' },
         ],
       },
     ],
@@ -662,6 +717,18 @@ Nobody here is famous. That almost makes it more useful. These are the people wh
         conditions: [{ type: 'history', id: 'bellweather_access_nia' }],
         body: `Nia is with you again, but this time you do not feel like you are hiding behind her invitation. You already recognize a few faces.`,
       },
+      {
+        conditions: [{ type: 'history', id: 'bellweather_access_celeste' }],
+        body: `Celeste's introduction gives you a cleaner entry than Juniper House did. She does not hover; she simply makes sure the organizer knows your name and lets you handle the rest.`,
+      },
+      {
+        conditions: [{ type: 'history', id: 'watched_room' }],
+        body: `The habit you practiced at Juniper helps here. You notice quickly that the loudest table is not the table everyone else keeps checking before they make a decision.`,
+      },
+      {
+        conditions: [{ type: 'history', id: 'bought_look' }],
+        body: `The nicer outfit still does not create access by itself, but it means presentation is one less thing competing for your attention tonight.`,
+      },
     ],
     choices: [
       {
@@ -677,7 +744,7 @@ Nobody here is famous. That almost makes it more useful. These are the people wh
       {
         id: 'event2-mara',
         label: 'Spend time with Mara',
-        description: 'Strengthen a relationship that already affected whether you could get into this room.',
+        description: 'Spend time strengthening the connection, whether or not Mara was the person who got you into this room.',
         nextSceneId: 'event2_finale',
         effects: [
           { type: 'relationship', characterId: 'mara', metric: 'affection', amount: 7 },
