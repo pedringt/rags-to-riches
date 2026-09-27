@@ -28,6 +28,11 @@ The working game began as an exact copy at:
 
 The initial setup intentionally preserved the original gameplay and story rather than redesigning it during project bootstrap.
 
+
+## Product Vision Document
+
+The evolving design direction is documented in `docs/specs/game-vision.md`. Read it before proposing or implementing major product changes. It captures the social-climbing sim, reality-show career, branching season structure, money/status systems, marriage/family pressure, gossip and smaller mysteries, cast trip, murder-mystery transition, originality boundary, and unresolved design questions.
+
 ## Current Product Shape
 
 The game currently has three phases:
@@ -141,7 +146,7 @@ Do not rewrite project history in a way that implies Paige personally authored c
 
 ## Current Objective
 
-The immediate product phase is **play and evaluate the inherited prototype before deciding what the game should become**.
+The immediate product phase is **define the new product direction before major implementation**. The inherited prototype remains useful as a reference, but the intended game direction is now substantially clearer and is documented in `docs/specs/game-vision.md`.
 
 Do not assume the current mechanics, tone, story structure, visual design, or three-phase progression are settled product decisions simply because they exist in the prototype.
 
