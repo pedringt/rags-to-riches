@@ -12,8 +12,10 @@ export default function EndingSummary({ state }: Props) {
       : 'You are still looking for steady work.';
 
   const housing = has(state, 'apartment_target_known')
-    ? `You have $${state.cash} toward the $600 move-out fund.`
-    : `You have $${state.cash} saved, but you have not priced out your first move yet.`;
+    ? has(state, 'got_cafe_job') || has(state, 'got_hotel_job')
+      ? `You have ${state.cash} toward the $600 move-out fund.`
+      : `You learned that moving out will take about $600, but without steady income it is still a research goal. You currently have ${state.cash}.`
+    : `You have ${state.cash} saved, but you have not priced out your first move yet.`;
 
   const dating = has(state, 'went_on_week2_date')
     ? 'You made room for dating, even though the latest date did not turn into anything serious.'
@@ -21,9 +23,28 @@ export default function EndingSummary({ state }: Props) {
       ? 'You tried dating once and got a good story out of a bad date.'
       : 'You did not spend time dating yet.';
 
-  const social = has(state, 'bellweather_access_work') || has(state, 'bellweather_access_ava') || has(state, 'bellweather_access_mara') || has(state, 'bellweather_access_nia')
-    ? 'Your social world expanded from Juniper House to the Bellweather benefit.'
-    : 'You made progress socially, but Bellweather is still ahead of you.';
+  const reachedBellweather = has(state, 'bellweather_access_work') || has(state, 'bellweather_access_ava') || has(state, 'bellweather_access_mara') || has(state, 'bellweather_access_nia') || has(state, 'bellweather_access_celeste');
+  const social = reachedBellweather
+    ? 'Your social world expanded to the Bellweather benefit.'
+    : has(state, 'skipped_bellweather')
+      ? 'You chose not to spend this week on the Bellweather benefit and kept your progress in other areas.'
+      : has(state, 'entered_better_social_circle')
+        ? 'You reached Juniper House, but Bellweather is still ahead of you.'
+        : has(state, 'skipped_juniper')
+          ? 'You skipped Juniper House and prioritized other parts of your life instead.'
+          : 'You are still building your first meaningful social access.';
+
+  const presentation = has(state, 'bought_look')
+    ? 'You spent money on presentation. It did not buy access by itself, but it made social rooms easier to navigate.'
+    : null;
+
+  const observation = has(state, 'watched_room')
+    ? 'You learned to separate visible attention from real influence in a social room.'
+    : null;
+
+  const celeste = has(state, 'chose_celeste')
+    ? 'You built a real connection with Celeste instead of that conversation disappearing after Juniper.'
+    : null;
 
   const rumor = has(state, 'rumor_repeated')
     ? 'Mara remembers that you helped spread the false cuff story.'
@@ -41,6 +62,9 @@ export default function EndingSummary({ state }: Props) {
         <li>{housing}</li>
         <li>{dating}</li>
         <li>{social}</li>
+        {presentation && <li>{presentation}</li>}
+        {observation && <li>{observation}</li>}
+        {celeste && <li>{celeste}</li>}
         {rumor && <li>{rumor}</li>}
       </ul>
     </section>
