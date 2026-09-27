@@ -13,9 +13,13 @@ export default function GameHud({ state }: Props) {
         ? 'Job hunting'
         : 'Unemployed';
 
-  const social = has(state, 'completed_week2')
-    ? (has(state, 'skipped_bellweather') ? 'Prioritized other goals' : 'Bellweather reached')
-    : has(state, 'bellweather_access_work') || has(state, 'bellweather_access_ava') || has(state, 'bellweather_access_mara') || has(state, 'bellweather_access_nia') || has(state, 'bellweather_access_celeste')
+  const social = has(state, 'week3_show_adjacent_event')
+    ? 'Show-adjacent room reached'
+    : has(state, 'completed_week3')
+      ? (has(state, 'week3_event_conflict_work') ? 'Worked through event' : 'Week 3 complete')
+      : has(state, 'completed_week2')
+        ? (has(state, 'skipped_bellweather') ? 'Prioritized other goals' : 'Bellweather reached')
+        : has(state, 'bellweather_access_work') || has(state, 'bellweather_access_ava') || has(state, 'bellweather_access_mara') || has(state, 'bellweather_access_nia') || has(state, 'bellweather_access_celeste')
       ? 'Bellweather secured'
       : has(state, 'entered_better_social_circle')
         ? 'Juniper reached'
