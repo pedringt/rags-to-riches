@@ -71,19 +71,22 @@ The early game can be relatively simple and accessible.
 
 A useful structural reference is the progression fantasy of older celebrity/social-climbing games such as *Kim Kardashian: Hollywood*, but without copying its content and without relying on repetitive mobile-style energy grinding.
 
-The basic early loop could be:
+The basic early loop should be:
 
-**work -> earn money -> improve lifestyle -> attend events -> meet people -> build relationships -> gain access -> unlock better opportunities**
+**find work -> earn and save -> stabilize housing -> maintain friendships/dating -> take selective social opportunities -> gain access -> unlock better work and social opportunities**
 
-The player starts with some combination of:
+The current starting direction is intentionally lower-status:
 
-- a regular job
-- a modest apartment
-- limited money
+- unemployed
+- staying with an established friend rather than owning or renting a place
+- thin savings
 - normal friends
-- a partner or dating opportunities
+- ordinary dating-app options, including plenty of duds
 - little or no fame
 - limited social access
+- a distant ambition of eventually reaching the fictional reality-show world
+
+The player's immediate problems should dominate the opening. The show can exist as background aspiration, but early job, housing, money, friendship, dating, and social decisions must be worthwhile on their own.
 
 Early choices should already express the central tension.
 
@@ -99,7 +102,50 @@ The player has limited money and time. They can:
 
 The game should ask, even early:
 
-> What are you willing to trade for access to this world?
+> What are you willing to trade for a better life, and when can you afford to chase the bigger dream?
+
+Early progress should involve real opportunity costs. Time spent job hunting cannot also be spent networking or dating. Money spent on clothes, dates, or events is money not saved toward independent housing. Social progress may be possible before the player is stable, but it should be harder to sustain.
+
+
+## Career as a Persistent Progression Track
+
+Career should remain an active system across the whole game, not disappear after the opening tutorial.
+
+A useful progression shape is:
+
+**unemployed -> survival job -> better job -> higher-status or better-connected work -> career/business that can continue into the show era**
+
+Jobs should not be simple linear upgrades. Each role can trade off:
+
+- income
+- schedule flexibility
+- stability
+- status
+- social access
+- exposure to connected people
+- future advancement
+
+A higher-paying job may help the player move out faster but leave less time for social opportunities. A hospitality, events, luxury, media, or client-facing role may create more access while paying less or being less stable.
+
+The player may keep a good job after joining the show. That should create competing priorities rather than becoming obsolete.
+
+Possible show-era career pressure includes:
+
+- filming conflicts with work
+- missed shifts or client obligations
+- unpaid leave
+- employers enjoying publicity until the player creates reputational risk
+- coworkers or clients reacting to aired behavior
+- fans or critics appearing at a workplace
+- pressure not to discuss an employer or business on camera
+- promotions or major career opportunities competing with filming
+- choosing whether unstable show income is enough to leave a reliable career
+
+If the player owns or runs a business later, television exposure can help or hurt it. A strong public image may bring customers and sponsorships. A scandal may damage the business, drive away clients, strain employees, or turn the business itself into a storyline.
+
+Core rule:
+
+> Career evolves from survival -> stability -> status/access -> something fame can threaten.
 
 ## Wealth and Status
 
@@ -829,6 +875,8 @@ These remain open and should not be silently decided by an implementation agent.
 
 ### Early sim
 - How deep should work, needs, wardrobe, money, and home management be?
+- How quickly should the player move from staying with Nia to their first independent home?
+- How many career steps belong before the show becomes meaningfully actionable?
 - Which early mechanics are worth keeping because they deepen later?
 - How much grind is acceptable before social progression becomes tedious?
 
@@ -841,6 +889,8 @@ These remain open and should not be silently decided by an implementation agent.
 ### Relationships
 - How many relationship dimensions are necessary without overwhelming the player?
 - How much should marriage/family systems differ by partner?
+- How should the dating pool change as the player's social world expands?
+- Which early bad dates should be authored comedy versus systemic variation?
 - Can the player begin single, married, or either?
 
 ### Wealth
