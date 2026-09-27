@@ -26,7 +26,7 @@ export type HistoryEvent = {
 export type AccessRoute = 'friend' | 'favor' | 'work' | null;
 
 export type GameState = {
-  saveVersion: 1;
+  saveVersion: 2;
   phase: 'prep' | 'event' | 'ending';
   sceneId: string;
   day: number;
