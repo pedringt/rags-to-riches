@@ -27,13 +27,26 @@ export default function GameHud({ state }: Props) {
               ? 'Building connections'
               : 'Starting out';
 
+  const schedule = has(state, 'week3_cafe_shift_worked')
+    ? 'Calder shift done'
+    : has(state, 'week3_cafe_called_out')
+      ? 'Called out Saturday'
+      : has(state, 'week3_hotel_flexible_schedule')
+        ? 'Shift chosen'
+        : state.sceneId.startsWith('week3') && has(state, 'got_hotel_job')
+          ? 'Choose a 4h shift'
+          : state.sceneId.startsWith('week3') && has(state, 'got_cafe_job')
+            ? 'Sat 2-10 assigned'
+            : 'No fixed shift';
+
   return (
-    <div className="grid grid-cols-2 gap-2 sm:grid-cols-5">
+    <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
       <Stat label="Cash" value={`$${state.cash}`} />
       <Stat label="Free time" value={`${state.timeRemaining}h`} />
       <Stat label="Job" value={job} />
       <Stat label="Housing" value={has(state, 'apartment_target_known') ? 'Nia’s place · $600 goal' : 'Nia’s place'} />
       <Stat label="Social life" value={social} />
+      <Stat label="Schedule" value={schedule} />
     </div>
   );
 }
