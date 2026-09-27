@@ -13,11 +13,11 @@ describe('vertical slice route rules', () => {
     expect(choiceAvailable(wealthy, choice('prep', 'favor-route'))).toBe(false);
   });
 
-  it('unlocks the friend route after investing in Nia', () => {
+  it('unlocks the friend route after spending time with Nia', () => {
     const state = gameReducer(createInitialGameState(), {
       type: 'applyChoice',
       nextSceneId: 'prep',
-      effects: [{ type: 'relationship', characterId: 'nia', metric: 'affection', amount: 10 }],
+      effects: [{ type: 'history', id: 'met_nia' }],
     });
     expect(choiceAvailable(state, choice('prep', 'friend-route'))).toBe(true);
   });
