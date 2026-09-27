@@ -191,7 +191,7 @@ Keep the file current and concise. Remove stale details when they stop being use
 - Working player fantasy: ordinary person → elite reality-TV social world → maintain relevance without losing money/relationships/identity → later use accumulated social knowledge in a real mystery.
 - Persistent system families: Money/Lifestyle, Access/Cast Status, Relationships, Reputation/Relevance, Secrets/Information.
 - Time is the main scarcity constraint in the current slices. Energy/fatigue is a future mechanic to evaluate, not currently implemented; avoid real-world waiting/mobile-grind patterns if revisited.
-- Core relationship values: Affection, Trust, Social Value; other relationship conditions are tags/states.
+- Core relationship values remain Affection, Trust, and Social Value internally; player-facing UI describes them as Affection, Trust, and Connection with qualitative labels instead of unexplained raw numbers.
 - Cast Status and Relevance are separate.
 - Working status ladder: Outsider → Guest → Friend Of → Full-Time → Veteran.
 - Money and perceived wealth are distinct; money alone does not guarantee access.
@@ -277,7 +277,11 @@ External or destructive actions require Paige's explicit authorization at the ap
 - Added a Week 1 → Week 2 transition that preserves persistent progress and refreshes a 10-hour weekly time budget.
 - Added a concrete $600 move-out fund target and an apartment-looking action.
 - Added paid Calder Café work plus a first better-job step at the Bellweather Hotel.
+- Revised the Week 1 work route after playtest: getting hired no longer sends the player straight into Juniper House. The player now completes a normal café shift first, then separately chooses whether to take an event-catering opportunity.
 - Added a second ordinary dating interaction and a Nia/home contribution tradeoff.
+- Made Week 2 dating copy history-aware so players who skipped Week 1 see a first-date prompt instead of "Try another date."
 - Added the Bellweather Hotel benefit as a second, better local social room with Ava, Mara, Nia, and work-based access paths.
 - Kept the entire slice pre-show; no casting or filming progression was added.
+- Replaced raw relationship numbers in the player UI with descriptive states for Affection, Trust, and Connection, while keeping numeric values internally for rules.
+- Added a plain-language end-of-run summary for job, savings/housing, dating, social progress, and the Week 1 rumor consequence.
 - Logged energy/fatigue as a future mechanic to evaluate rather than adding it now.
