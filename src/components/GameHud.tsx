@@ -5,11 +5,13 @@ type Props = { state: GameState };
 const has = (state: GameState, id: string) => state.history.some((event) => event.id === id);
 
 export default function GameHud({ state }: Props) {
-  const job = has(state, 'got_cafe_job')
-    ? 'Calder Café'
-    : has(state, 'job_search_started')
-      ? 'Job hunting'
-      : 'Unemployed';
+  const job = has(state, 'got_hotel_job')
+    ? 'Bellweather Hotel'
+    : has(state, 'got_cafe_job')
+      ? 'Calder Café'
+      : has(state, 'job_search_started')
+        ? 'Job hunting'
+        : 'Unemployed';
 
   const social = state.accessRoute
     ? 'Invitation secured'
@@ -22,7 +24,7 @@ export default function GameHud({ state }: Props) {
       <Stat label="Cash" value={`$${state.cash}`} />
       <Stat label="Free time" value={`${state.timeRemaining}h`} />
       <Stat label="Job" value={job} />
-      <Stat label="Housing" value="Nia’s place" />
+      <Stat label="Housing" value={has(state, 'apartment_target_known') ? 'Nia’s place · $600 goal' : 'Nia’s place'} />
       <Stat label="Social life" value={social} />
     </div>
   );
