@@ -724,7 +724,7 @@ const Apartment3D = ({ objects, characterPos, timeOfDay }) => {
         const legs = [[-0.6, 0.37, 0.3], [0.6, 0.37, 0.3], [-0.6, 0.37, -0.3], [0.6, 0.37, -0.3]];
         legs.forEach(pos => {
           const leg = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.74, 0.06), new THREE.MeshStandardMaterial({ color: 0x5D4037 }));
-          leg.position.set(...pos);
+          leg.position.set(pos[0], pos[1], pos[2]);
           group.add(leg);
         });
         
@@ -750,7 +750,7 @@ const Apartment3D = ({ objects, characterPos, timeOfDay }) => {
         group.add(display);
       }
 
-      group.position.set(...obj.position);
+      group.position.set(obj.position[0], obj.position[1], obj.position[2]);
       scene.add(group);
     });
 
