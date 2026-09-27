@@ -39,10 +39,10 @@ The evolving design direction is documented in `docs/specs/game-vision.md`. Read
 
 On the authorized implementation branch `feature/vertical-slice`, issue #15 replaces the working UI with the first slice of the new direction:
 
-1. **Ordinary-life preparation** — limited time and money; choose work, relationships, or presentation.
-2. **Access** — reach one major social event through a friend, a favor, or a work-earned invitation.
-3. **Show orbit** — meet show-adjacent people, see status differences, and make an information-handling choice.
-4. **Slice endpoint** — the player is not cast yet, but the fictional show now knows who they are.
+1. **Ordinary-life starting point** — the player is staying at Nia's place, saving for an apartment, and still has a normal job/life.
+2. **First social climb** — use limited time, money, work, relationships, and presentation to reach a better local social event.
+3. **Better social tier** — meet more connected people and make an information-handling choice without directly pursuing the show.
+4. **Slice endpoint** — the player earns another invitation and moves one rung up socially; `Main Character` remains the long-term dream, not an immediately actionable casting goal.
 
 The original inherited prototype remains preserved at `originals/rags-to-riches-v3.tsx`.
 
@@ -128,7 +128,9 @@ Do not rewrite project history in a way that implies Paige personally authored c
 
 The project is now in **implementation and verification of the first playable vertical slice** under issue #15.
 
-The goal of this slice is to prove the ordinary-life → social-climbing → show-orbit loop before expanding into full seasons, cast trips, reunions, or the final mystery.
+The goal of this slice is to prove the ordinary-life → first social climb → better social tier loop before expanding toward the show, full seasons, cast trips, reunions, or the final mystery.
+
+The player may want to be on `Main Character` from the beginning, but cannot meaningfully pursue casting yet. The show should appear only through background aspiration and hints until the player has built enough money, access, relationships, and social position to enter the show-adjacent tier.
 
 Do not silently broaden this slice into the full game. Final title, city, cast roster, season count, credits motif, and final mystery remain intentionally unresolved.
 
@@ -195,6 +197,8 @@ Keep the file current and concise. Remove stale details when they stop being use
 - First slice uses local saves only and plain typed state/reducer architecture.
 - No backend, database, accounts, cloud saves, AI API, Ink, Zustand, or engine migration unless a concrete future need appears.
 - `Main Character` is the strongest current working title/show-name candidate, but remains provisional.
+- The player can begin with `Main Character` as an ultimate ambition, but direct pursuit of casting is gated behind substantial social/lifestyle progression.
+- The starting situation is intentionally low-status: the player is living with Nia while saving for a place of their own. Getting an independent home is an early progression milestone.
 - Reality-TV inspiration should borrow social dynamics, not reproduce real cast members or storylines wholesale.
 
 ## Open Questions
@@ -251,4 +255,7 @@ External or destructive actions require Paige's explicit authorization at the ap
 - Added typed game state, reducer/rules, authored scene content, relationships, information state, local saves, and test files.
 - Implemented friend, favor, and work access routes that reconverge at the same event while preserving different state.
 - Added a low-stakes missing-jewelry rumor with keep/question/repeat outcomes to teach the future information loop.
+- After Paige's first playtest, revised the pacing so the show is a distant long-term objective rather than the first immediate goal.
+- Changed the starting situation so the player is staying with Nia and saving for an apartment; the first slice now ends with entry into a better social tier instead of production noticing the player.
+- Rewrote choice copy to describe concrete player actions, costs, and likely outcomes more clearly.
 - Verified the domain model and route logic locally without promoting or deploying the branch.
