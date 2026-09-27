@@ -8,8 +8,8 @@ type Props = {
 };
 
 export default function ScenePanel({ scene, state, onChoose }: Props) {
-  const variant = scene.variants?.find((candidate) => candidate.conditions.every((condition) => conditionPasses(state, condition)));
-  const body = variant ? `${scene.body}\n\n${variant.body}` : scene.body;
+  const variants = scene.variants?.filter((candidate) => candidate.conditions.every((condition) => conditionPasses(state, condition))) ?? [];
+  const body = [scene.body, ...variants.map((variant) => variant.body)].filter(Boolean).join('\n\n');
   const available = scene.choices.filter((choice) => choiceAvailable(state, choice));
 
   return (
