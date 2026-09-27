@@ -12,7 +12,7 @@ export default function StartScreen({ hasSave, onNewGame, onContinue, onReset }:
         <p className="text-xs uppercase tracking-[0.3em] text-stone-500">Working title</p>
         <h1 className="mt-3 text-5xl md:text-7xl font-serif leading-none">Main Character</h1>
         <p className="mt-6 max-w-xl text-lg leading-8 text-stone-600">
-          Start outside the room. Decide what access is worth. Learn which parts of yourself become more valuable once someone points a camera at them.
+          Start with no job, little money, and a friend’s couch. Build a life, climb socially, and see how close you can get to the world you watch on TV.
         </p>
         <div className="mt-10 flex flex-col sm:flex-row gap-3">
           <button className="rounded-full bg-stone-900 px-6 py-3 text-white" onClick={onNewGame}>New game</button>
